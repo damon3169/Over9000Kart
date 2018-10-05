@@ -12,17 +12,22 @@ public class Ship : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         speed = -0.1f; ; // vitesse de base du vaisseau
+        switch(idJoueur) // 
+        {
+            case 1:
+                controleurJoueur = "Player1";
+                break;
+            case 2:
+                controleurJoueur = "Player2";
+                break;
+        }
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetButtonDown("SpeedUp")) speed += 0.3f;
-        if (speed > 0) speed -= 0.05f;
-        else speed = 0;
-        gameObject.transform.Translate(Time.deltaTime*speed, 0, 0);
+        if (Input.GetButtonDown(controleurJoueur+"_SpeedUp") && speed<3) speed += 0.2f;
+        if (speed > -1) speed -= 0.03f; // frein naturel
         
-        Debug.Log("Vitesse=" + speed);
+        if (speed > 0) gameObject.transform.Translate(Time.deltaTime*speed, 0, 0);
 	}
-
-
 }

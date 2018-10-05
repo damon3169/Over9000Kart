@@ -122,11 +122,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4054585628788682, guid: b8fade9af10b6164f8e9932a5530772d, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -9.6
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 4054585628788682, guid: b8fade9af10b6164f8e9932a5530772d, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -4.15
+      value: -4
       objectReference: {fileID: 0}
     - target: {fileID: 4054585628788682, guid: b8fade9af10b6164f8e9932a5530772d, type: 2}
       propertyPath: m_LocalPosition.z
@@ -692,7 +692,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4054585628788682, guid: b8fade9af10b6164f8e9932a5530772d, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 1.92
+      value: 1.8
       objectReference: {fileID: 0}
     - target: {fileID: 4054585628788682, guid: b8fade9af10b6164f8e9932a5530772d, type: 2}
       propertyPath: m_LocalPosition.z
@@ -771,8 +771,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 122, y: -34.500015}
-  m_SizeDelta: {x: 61.5, y: 39.1}
+  m_AnchoredPosition: {x: 213.4, y: -34.500015}
+  m_SizeDelta: {x: 244.2, y: 39.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &922574654
 MonoBehaviour:
@@ -858,7 +858,7 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -65.62156, w: 0}
+  m_margin: {x: 0, y: 0, z: -1.1339701, w: 0}
   m_textInfo:
     textComponent: {fileID: 0}
     characterCount: 1
@@ -1455,8 +1455,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 745, y: -34.50003}
-  m_SizeDelta: {x: 61.5, y: 39.1}
+  m_AnchoredPosition: {x: 816.13, y: -34.50003}
+  m_SizeDelta: {x: 203.76, y: 39.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1960443356
 MonoBehaviour:
@@ -1542,7 +1542,7 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -65.62156, w: 0}
+  m_margin: {x: 0, y: 0, z: 0.20954925, w: 0}
   m_textInfo:
     textComponent: {fileID: 0}
     characterCount: 1
