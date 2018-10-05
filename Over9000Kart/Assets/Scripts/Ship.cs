@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Ship : MonoBehaviour {
 
-    float Speed;
+    public float Speed;
+    public Vector2 position;
 
 	// Use this for initialization
 	void Start () {
