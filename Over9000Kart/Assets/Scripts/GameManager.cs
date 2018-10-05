@@ -36,15 +36,15 @@ public class GameManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		for(int i=0; i<listShip.Count; i++)
+		foreach(Ship ship in listShip)
         {
-            switch(i)
+            switch(ship.idJoueur)
             {
-                case 0:
-                    uiManager.textSpeedJ1Value.GetComponent<TextMeshProUGUI>().text = listShip[i].speed.ToString();
-                    break;
                 case 1:
-                    uiManager.textSpeedJ2Value.GetComponent<TextMeshProUGUI>().text = listShip[i].speed.ToString();
+                    uiManager.textSpeedJ1Value.GetComponent<TextMeshProUGUI>().text = ship.speed.ToString();
+                    break;
+                case 2:
+                    uiManager.textSpeedJ2Value.GetComponent<TextMeshProUGUI>().text = ship.speed.ToString();
                     break;
             }
         }
