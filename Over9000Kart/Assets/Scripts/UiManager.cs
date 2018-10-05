@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class UiManager : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+    public GameObject textSpeedJ1Value;
+    public GameObject textSpeedJ2Value;
+
+    // Use this for initialization
+    void Start () {
 		
 	}
 	
