@@ -79,6 +79,10 @@ public class Ship : MonoBehaviour
             }
         } else {
             this.transform.Translate(Vector3.left * Time.deltaTime * transform.position.x);
+            if (GameManager.instance.finished && Input.GetButtonDown(controleurJoueur + "_Reset"))
+            {
+                GameManager.instance.debut_de_partie();
+            }
         }
 	}
 

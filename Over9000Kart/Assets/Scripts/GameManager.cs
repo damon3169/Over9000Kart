@@ -49,12 +49,28 @@ public class GameManager : MonoBehaviour {
     // singleton gamemanager
 	public static GameManager instance = null;
 
-	void Awake()
+    public void debut_de_partie()
+    {
+        finished = false;
+
+        float height = 2f * cam.orthographicSize;
+        float width = height * cam.aspect;
+        listShip[0].setActualCorridor(couloirs.couloirsList.Count - 1);
+        listShip[0].transform.position = new Vector3(cam.transform.position.x - width / 2 + 2, couloirs.couloirsList[couloirs.couloirsList.Count - 1].y, -1);
+        listShip[1].setActualCorridor(0);
+        listShip[1].transform.position = new Vector3(cam.transform.position.x - width / 2 + 2, couloirs.couloirsList[0].y, -1);
+
+        foreach (Ship ship in listShip)
+        {
+            ship.score = 8000;
+            ship.transform.position = new Vector3((GameManager.instance.getCameraWidth() / 10) - (GameManager.instance.getCameraWidth() / 2), ship.transform.position.y, ship.transform.position.z);
+            ship.speed = 0f; ; // vitesse de base du vaisseau
+        }
+    }
+
+    void Awake()
 	{
 		cam = Camera.main; // assigne la main camera
-		
-		float height = 2f * cam.orthographicSize;
-		float width = height * cam.aspect;
 		if (instance == null)
 		{
 			instance = this;
@@ -74,10 +90,6 @@ public class GameManager : MonoBehaviour {
 		}
 
 		couloirs.createCorridors();
-		listShip[0].setActualCorridor(couloirs.couloirsList.Count - 1);
-		listShip[0].transform.position = new Vector3(cam.transform.position.x - width / 2+2, couloirs.couloirsList[couloirs.couloirsList.Count - 1].y, -1);
-		listShip[1].setActualCorridor(0);
-		listShip[1].transform.position = new Vector3(cam.transform.position.x - width / 2+2, couloirs.couloirsList[0].y, -1);
 	}
 
     private float random_width()
@@ -91,7 +103,6 @@ public class GameManager : MonoBehaviour {
     }
 
     void Start () {
-        finished = false;
 
         uiManager = GameObjectUIManager.GetComponent<UiManager>(); // on récupère l'uiManager
        
@@ -106,6 +117,7 @@ public class GameManager : MonoBehaviour {
             GameObject newStar = Instantiate(star);
             newStar.transform.position = new Vector3(random_width(), random_height(), -1);
         }
+        debut_de_partie();
     }
 
 	void Update () {
