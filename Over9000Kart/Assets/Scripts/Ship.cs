@@ -45,6 +45,8 @@ public class Ship : MonoBehaviour
 	{
         if (!GameManager.instance.finished)
         {
+			if (!GameManager.instance.isStarting)
+			{
             if (!GameManager.instance.isInFight)
             {
                 score = transform.position.x * 100 + 8000 - GameManager.instance.getCameraWidth(); // calcul du score selon la position en x du vaisseau
@@ -106,7 +108,8 @@ public class Ship : MonoBehaviour
                     isFigtingInCooldown = false;
                 }
             }
-        } else {
+			}
+		} else {
             this.transform.Translate(Vector3.left * Time.deltaTime * transform.position.x);
             if (GameManager.instance.finished && Input.GetButtonDown(controleurJoueur + "_Reset"))
             {

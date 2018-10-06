@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+
 
 public class GameManager : MonoBehaviour {
 
@@ -54,12 +56,18 @@ public class GameManager : MonoBehaviour {
     private int idFighter;
     private int idDefenser;
     private int CorridorVisee;
+	public bool isStarting= true;
+	private float timerStart = 5;
+	public GameObject Compteur;
 
-    public void debut_de_partie()
+
+	public void debut_de_partie()
     {
         finished = false;
+		isStarting = true;
 
-        float height = 2f * cam.orthographicSize;
+
+		float height = 2f * cam.orthographicSize;
         float width = height * cam.aspect;
         listShip[0].setActualCorridor(couloirs.couloirsList.Count - 1);
         listShip[0].transform.position = new Vector3(cam.transform.position.x - width / 2 + 2, couloirs.couloirsList[couloirs.couloirsList.Count - 1].y, -1);
@@ -135,7 +143,21 @@ public class GameManager : MonoBehaviour {
             newStar.transform.position = new Vector3(cam.transform.position.x + cam.orthographicSize * cam.aspect, random_height(), -1);
         }
 
-        if (Time.time > timerObstaclesBegin + timerObstacles && !finished)
+		if (isStarting)
+		{
+			timerStart -= Time.deltaTime;
+			Compteur.GetComponent<TextMeshProUGUI>().text = Mathf.RoundToInt(timerStart).ToString();
+			if (timerStart < 0)
+			{
+				timerStart = 0;
+				Compteur.GetComponent<TextMeshProUGUI>().text = "";
+				isStarting = false;
+			}
+		}
+
+		
+
+        if (Time.time > timerObstaclesBegin + timerObstacles && !finished && !isStarting)
         {
             timerObstacles = Random.Range(1, timerObstaclesRange);
             numberObstacle = Random.Range(1, couloirs.numberOfCorridor);
