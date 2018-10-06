@@ -42,70 +42,34 @@ public class Ship : MonoBehaviour
 
             // mouvement du vaisseau
             if (speed > GameManager.instance.speedMin && transform.position.x > GameManager.instance.xMin) transform.Translate(Time.deltaTime * speed, 0, 0);
-            // 
-            else speed = GameManager.instance.speedMin + 0.1f;
+            //else speed = GameManager.instance.speedMin + 0.1f;
 
-<<<<<<< HEAD
-        // déplacement de couloir
-		if (Input.GetButtonDown(controleurJoueur + "_ChangeCorridor_K") || Input.GetButtonDown(controleurJoueur + "_ChangeCorridor_J"))
-		{
-			if (Input.GetAxis(controleurJoueur + "_ChangeCorridor_K") < 0 || Input.GetAxis(controleurJoueur + "_ChangeCorridor_J") < 0)
-            {
-				if (actualCorridor > 0)
-				{
-					setActualCorridor(actualCorridor - 1);
-					this.transform.position = new Vector3(transform.position.x, corridor.couloirsList[actualCorridor].y, transform.position.z);
-				}
-
-			}
-			if (Input.GetAxis(controleurJoueur + "_ChangeCorridor_K") > 0 || Input.GetAxis(controleurJoueur + "_ChangeCorridor_J") > 0)
-			{
-				if (actualCorridor < corridor.couloirsList.Count-1)
-				{
-					setActualCorridor(actualCorridor + 1);
-					this.transform.position = new Vector3(transform.position.x, corridor.couloirsList[actualCorridor].y, transform.position.z);
-				}
-			}
-		}
-
-        // si le joueur mash les boutons pour accelerer et que sa vitesse n'est pas supérieure à la vitesse maximale ni inférieure à la vitesse minimale
-        if ((Input.GetButtonDown(controleurJoueur + "_SpeedUp_K") || Input.GetButtonDown(controleurJoueur + "_SpeedUp_J")) && speed < GameManager.instance.speedMax)
-        {
-            speed += GameManager.instance.acceleration; // on augmente la vitesse selon le niveau d'acceleration
-            if(transform.position.x <= GameManager.instance.xMin)
-=======
             // déplacement de couloir
-            if (Input.GetButtonDown(controleurJoueur + "_ChangeCorridor"))
-            {
-                if (Input.GetAxis(controleurJoueur + "_ChangeCorridor") < 0)
+		    if (Input.GetButtonDown(controleurJoueur + "_ChangeCorridor_K") || Input.GetButtonDown(controleurJoueur + "_ChangeCorridor_J"))
+		    {
+			    if (Input.GetAxis(controleurJoueur + "_ChangeCorridor_K") < 0 || Input.GetAxis(controleurJoueur + "_ChangeCorridor_J") < 0)
                 {
-                    if (actualCorridor > 0)
-                    {
-                        setActualCorridor(actualCorridor - 1);
-                        this.transform.position = new Vector3(transform.position.x, corridor.couloirsList[actualCorridor].y, transform.position.z);
-                    }
+				    if (actualCorridor > 0)
+				    {
+					    setActualCorridor(actualCorridor - 1);
+					    this.transform.position = new Vector3(transform.position.x, corridor.couloirsList[actualCorridor].y, transform.position.z);
+				    }
 
-                }
-                if (Input.GetAxis(controleurJoueur + "_ChangeCorridor") > 0)
-                {
-                    if (actualCorridor < corridor.couloirsList.Count - 1)
-                    {
-                        setActualCorridor(actualCorridor + 1);
-                        this.transform.position = new Vector3(transform.position.x, corridor.couloirsList[actualCorridor].y, transform.position.z);
-                    }
-                }
-            }
+			    }
+			    if (Input.GetAxis(controleurJoueur + "_ChangeCorridor_K") > 0 || Input.GetAxis(controleurJoueur + "_ChangeCorridor_J") > 0)
+			    {
+				    if (actualCorridor < corridor.couloirsList.Count-1)
+				    {
+					    setActualCorridor(actualCorridor + 1);
+					    this.transform.position = new Vector3(transform.position.x, corridor.couloirsList[actualCorridor].y, transform.position.z);
+				    }
+			    }
+		    }
 
             // si le joueur mash les boutons pour accelerer et que sa vitesse n'est pas supérieure à la vitesse maximale ni inférieure à la vitesse minimale
-            if (Input.GetButtonDown(controleurJoueur + "_SpeedUp") && speed < GameManager.instance.speedMax)
->>>>>>> 5afe28e49c08636e4cc7a473d255cfb97c45a15a
+            if ((Input.GetButtonDown(controleurJoueur + "_SpeedUp_K") || Input.GetButtonDown(controleurJoueur + "_SpeedUp_J")) && speed < GameManager.instance.speedMax)
             {
                 speed += GameManager.instance.acceleration; // on augmente la vitesse selon le niveau d'acceleration
-                if (transform.position.x <= GameManager.instance.xMin)
-                {
-                    Vector3 v = new Vector3(GameManager.instance.xMin + 0.01f, transform.position.y, transform.position.z);
-                    transform.position = v;
-                }
             }
         } else {
             this.transform.Translate(Vector3.left * Time.deltaTime * transform.position.x);
