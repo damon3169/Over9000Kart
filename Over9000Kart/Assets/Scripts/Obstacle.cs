@@ -34,5 +34,10 @@ public class Obstacle : MonoBehaviour {
 		if (collision.tag == ("MainCamera")) {
 			destroyObject();
 		}
+        if (collision.gameObject.tag == "Ship")
+        {
+            Debug.Log("collision");
+            collision.gameObject.GetComponent<Ship>().drawback();
+        }
 	}
 }
