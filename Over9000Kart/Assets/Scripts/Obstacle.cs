@@ -4,40 +4,21 @@ using UnityEngine;
 
 public class Obstacle : MonoBehaviour {
 
-	public float speed = 10;
-
-	 Vector2 couloir;
-
-	Camera camera;
-
-
+	public float speed;
 
 	// Use this for initialization
-	void Start () {
-		camera = Camera.main;
-	}
+	void Start () {}
 	
 	// Update is called once per frame
 	void Update () {
-		goLeft();
-		
-	}
-
-	void goLeft()
-	{
-		transform.Translate(Vector2.left * Time.deltaTime * speed);
-	}
-
-	void destroyObject() 
-	{
-		Destroy(this.gameObject);
-	}
-
+        transform.Translate(Vector2.left * Time.deltaTime * speed);
+    }
 
 	private void OnTriggerExit2D(Collider2D collision)
 	{
-		if (collision.tag == ("MainCamera")) {
-			destroyObject();
-		}
+		if (transform.position.x + transform.localScale.x / 2 < GameManager.instance.cam.transform)
+        {
+            Destroy(this.gameObject);
+        }
 	}
 }
