@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class Obstacle : Star
 {
-    void destroyObject()
-    {
-        Destroy(this.gameObject);
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Ship")
@@ -17,6 +12,7 @@ public class Obstacle : Star
             collision.gameObject.GetComponent<Ship>().drawback();
             
             transform.Translate(Vector2.left * Time.deltaTime * speed);
+
             Destroy(this.gameObject);
         }
     }
