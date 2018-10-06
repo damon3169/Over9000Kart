@@ -4,26 +4,10 @@ using UnityEngine;
 
 public class Obstacle : Star
 {
-    // Use this for initialization
-    void Start() { }
-
-    // Update is called once per frame
-    void Update()
-    {
-        goLeft();
-
-    }
-
-    void goLeft()
-    {
-        transform.Translate(Vector2.left * Time.deltaTime * speed);
-    }
-
     void destroyObject()
     {
         Destroy(this.gameObject);
     }
-
 
     private void OnTriggerExit2D(Collider2D collision)
     {
