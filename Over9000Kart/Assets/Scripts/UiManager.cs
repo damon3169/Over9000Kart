@@ -15,10 +15,28 @@ public class UiManager : MonoBehaviour {
             {
                 case 1:
                     // on met à jour son score sur l'interface
-                    textSpeedJ1Value.GetComponent<TextMeshProUGUI>().text = Mathf.RoundToInt(ship.score).ToString(); 
+                    if (ship.score > 9000)
+                    {
+                        textSpeedJ1Value.GetComponent<TextMeshProUGUI>().text = "WIN"; 
+                    } else if (!GameManager.instance.finished) {
+                        textSpeedJ1Value.GetComponent<TextMeshProUGUI>().text = Mathf.RoundToInt(ship.score).ToString();
+                    } else {
+                        textSpeedJ1Value.GetComponent<TextMeshProUGUI>().text = "LOSE";
+                    }
                     break;
                 case 2:
-                    textSpeedJ2Value.GetComponent<TextMeshProUGUI>().text = Mathf.RoundToInt(ship.score).ToString();
+                    if (ship.score > 9000)
+                    {
+                        textSpeedJ2Value.GetComponent<TextMeshProUGUI>().text = "WIN";
+                    }
+                    else if (!GameManager.instance.finished)
+                    {
+                        textSpeedJ2Value.GetComponent<TextMeshProUGUI>().text = Mathf.RoundToInt(ship.score).ToString();
+                    }
+                    else
+                    {
+                        textSpeedJ2Value.GetComponent<TextMeshProUGUI>().text = "LOSE";
+                    }
                     break;
             }
         }

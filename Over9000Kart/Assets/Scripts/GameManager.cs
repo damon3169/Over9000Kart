@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
+    //variables du jeu
+    public bool finished;
+
     // variables statiques du vaisseau
     public float speedMin; // vitesse minimale à laquelle un vaisseau peut aller (peut être négative)
     public float speedMax; // vitesse maximale à laquelle un vaisseau peut aller
@@ -86,6 +89,8 @@ public class GameManager : MonoBehaviour {
     }
 
     void Start () {
+        finished = false;
+
         uiManager = GameObjectUIManager.GetComponent<UiManager>(); // on récupère l'uiManager
        
 		timerObstaclesBegin = 0;
@@ -102,7 +107,7 @@ public class GameManager : MonoBehaviour {
     }
 
 	void Update () {
-        if (Time.time > timerObstaclesBegin + timerObstacles)
+        if (Time.time > timerObstaclesBegin + timerObstacles && !finished)
         {
             timerObstacles = Random.Range(1, timerObstaclesRange + 1);
             numberObstacle = Random.Range(1, couloirs.numberOfCorridor);
@@ -136,29 +141,13 @@ public class GameManager : MonoBehaviour {
             newStar.transform.position = new Vector3 (cam.transform.position.x + cam.orthographicSize * cam.aspect, random_height(), -1);
         }
 
-		if (Time.time > timerObstaclesBegin + timerObstacles) {
-			timerObstacles = Random.Range(1, timerObstaclesRange);
-			numberObstacle = Random.Range(1, couloirs.numberOfCorridor);
-			timerObstaclesBegin = Time.time;
-			usedCouloirs.Clear();
-			for (int i = 0; i< numberObstacle; i++)
-			{
-				isObstacleSpawn = false;
-				while (!isObstacleSpawn) { 
-					 SpawnIn= Random.Range(0, couloirs.numberOfCorridor);
-					float distanceBetweenObstacles = Random.Range(0.5f, randomDistance);
-					if (usedCouloirs == null || !usedCouloirs.Contains(SpawnIn))
-					{
-						usedCouloirs.Add(SpawnIn);
-						GameObject obst = Instantiate(obstacle);
-						float height = 2f * cam.orthographicSize;
-						float width = height * cam.aspect;
-						obst.transform.position= new Vector3(cam.transform.position.x+ width / 2 + distanceBetweenObstacles, couloirs.couloirsList[SpawnIn].y, couloirs.couloirsList[SpawnIn].z);
-						isObstacleSpawn = true;
-					}
-				}
-			}
-		}
+        foreach (Ship ship in listShip)
+        {
+            if (ship.score > 9000)
+            {
+                finished = true;
+            }
+        }
 	}
 
     // permet d'obtenir la liste des ship
