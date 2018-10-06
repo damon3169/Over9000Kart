@@ -5,37 +5,49 @@ using UnityEngine;
 public class GameManager : MonoBehaviour {
 
     // variables statiques du vaisseau
-    public float speedMin;
-    public float speedMax;
-    public float frein;
-    public float acceleration;
-    public float bufferSpeed;
+    public float speedMin; // vitesse minimale à laquelle un vaisseau peut aller (peut être négative)
+    public float speedMax; // vitesse maximale à laquelle un vaisseau peut aller
+    public float frein; // frein naturel contre l'acceleration
+    public float acceleration; // modificateur d'acceleration d'un vaisseau
+    public float bufferSpeed; // buffer nécéssaire de mash de bouton avant de commencer à accelerer
+    public float xMin; // position x minimale d'un vaisseau sur l'écran
 
     List<Ship> listShip; // liste des vaisseaux dans une partie
+
+    // ui
     public GameObject GameObjectUIManager;
     UiManager uiManager;
+
+    // couloirs
 	public couloirs couloirs;
-	public float timerObstaclesRange = 3;
+    private List<int> usedCouloirs;
+
+    //obstacles
+    public float timerObstaclesRange = 3;
 	public float timerObstacles;
 	private float timerObstaclesBegin;
 	private int numberObstacle;
-	private List<int> usedCouloirs;
 	public GameObject obstacle;
+    private bool isObstacleSpawn;
+    private int SpawnIn;
+
+    // stars et background
     public GameObject star;
-	private int SpawnIn;
-	private bool isObstacleSpawn;
+    float timeSinceLastStarGenerated = 0.0f;
+    const float starGenerationCooldown = 0.01f; 
 	public GameObject background;
 	public float randomDistance = 3;
-	public Camera cam;
-	public static GameManager instance = null;
 
-    float timeSinceLastStarGenerated = 0.0f;
-    const float starGenerationCooldown = 0.01f;
+    // main camera
+	public Camera cam;
+
+    // singleton gamemanager
+	public static GameManager instance = null;
 
 	void Awake()
 	{
-		cam = Camera.main;
-		listShip = new List<Ship>();
+		cam = Camera.main; // assigne la main camera
+		
 		float height = 2f * cam.orthographicSize;
 		float width = height * cam.aspect;
 		if (instance == null)
@@ -47,8 +59,11 @@ public class GameManager : MonoBehaviour {
 			Destroy(gameObject);
 		}
 		DontDestroyOnLoad(gameObject);
-		GameObject[] tempListShip = GameObject.FindGameObjectsWithTag("Ship"); // tableau temporaire
-		foreach (GameObject ship in tempListShip)
+
+        // liste des ship
+        listShip = new List<Ship>(); // initalise la liste des ship
+        GameObject[] tempListShip = GameObject.FindGameObjectsWithTag("Ship"); // tableau temporaire des ship
+		foreach (GameObject ship in tempListShip) // assignation des ship du tableau temporaire dans la liste
 		{
 			listShip.Add(ship.GetComponent<Ship>());
 		}
@@ -70,26 +85,22 @@ public class GameManager : MonoBehaviour {
         return cam.transform.position.y - cam.orthographicSize + Random.Range(0.0f, cam.orthographicSize * 2);
     }
 
-    // Use this for initialization
     void Start () {
-        uiManager = GameObjectUIManager.GetComponent<UiManager>();
-         // initalisation de la liste
+        uiManager = GameObjectUIManager.GetComponent<UiManager>(); // on récupère l'uiManager
        
 		timerObstaclesBegin = 0;
 		timerObstacles = Random.Range(1, timerObstaclesRange);
-		usedCouloirs = new List<int>();
-		cam = Camera.main;
+		usedCouloirs = new List<int>(); // intialisation de la liste des couloirs
 
-        int nbStars = Random.Range(500, 5000);
+        int nbStars = Random.Range(500, 5000); // nombre aléatoire d'étoiles à l'écran
 
-        for (int i = 0; i < nbStars; i++)
+        for (int i = 0; i < nbStars; i++) // génération des étoiles sur le background
         {
             GameObject newStar = Instantiate(star);
             newStar.transform.position = new Vector3(random_width(), random_height(), -1);
         }
     }
 
-	// Update is called once per frame
 	void Update () {
         if (Time.time > timerObstaclesBegin + timerObstacles)
         {
@@ -97,7 +108,7 @@ public class GameManager : MonoBehaviour {
             numberObstacle = Random.Range(1, couloirs.numberOfCorridor);
             timerObstaclesBegin = Time.time;
             usedCouloirs.Clear();
-            Debug.Log(numberObstacle);
+            //Debug.Log(numberObstacle);
             for (int i = 0; i < numberObstacle; i++)
             {
                 isObstacleSpawn = false;
@@ -150,17 +161,20 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+    // permet d'obtenir la liste des ship
     public List<Ship> getListShip()
     {
         return listShip;
     }
 
+    // permet d'obtenir la taille en hauteur de la caméra
     public float getCameraHeight()
     {
         float height = 2f * cam.orthographicSize;
         return height;
     }
 
+    // permet d'obtenir la taille en largeur de la caméra
     public float getCameraWidth()
     {
         float width = getCameraHeight() * cam.aspect;
