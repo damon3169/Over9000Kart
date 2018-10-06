@@ -8,11 +8,6 @@ public class Obstacle : MonoBehaviour {
 
 	Vector2 couloir;
 
-<<<<<<< HEAD
-	Camera camera;
-=======
->>>>>>> 7bdc08c176a4512f1eb16f458b6d9f4dfd52f6f8
-
 	// Use this for initialization
 	void Start () {
 	}
