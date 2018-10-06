@@ -1,6 +1,10 @@
 fileFormatVersion: 2
 <<<<<<< HEAD
+<<<<<<< HEAD
 guid: 04487a65d980e9646b05038d61a511f6
+=======
+guid: b40cff912b4cbed478b129fd948d101a
+>>>>>>> b9e7b0208bfd8b73c400ac302701529e86fac43d
 =======
 guid: b40cff912b4cbed478b129fd948d101a
 >>>>>>> b9e7b0208bfd8b73c400ac302701529e86fac43d
@@ -50,7 +54,11 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
 <<<<<<< HEAD
+<<<<<<< HEAD
   spritePixelsToUnits: 50
+=======
+  spritePixelsToUnits: 100
+>>>>>>> b9e7b0208bfd8b73c400ac302701529e86fac43d
 =======
   spritePixelsToUnits: 100
 >>>>>>> b9e7b0208bfd8b73c400ac302701529e86fac43d
@@ -78,6 +86,7 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
 <<<<<<< HEAD
+<<<<<<< HEAD
   - serializedVersion: 2
     buildTarget: Standalone
     maxTextureSize: 2048
@@ -91,6 +100,8 @@ TextureImporter:
     androidETC2FallbackOverride: 0
 =======
 >>>>>>> b9e7b0208bfd8b73c400ac302701529e86fac43d
+=======
+>>>>>>> b9e7b0208bfd8b73c400ac302701529e86fac43d
   spriteSheet:
     serializedVersion: 2
     sprites: []
@@ -98,7 +109,11 @@ TextureImporter:
     physicsShape: []
     bones: []
 <<<<<<< HEAD
+<<<<<<< HEAD
     spriteID: 807d40c36308862418d09eccbca14f1c
+=======
+    spriteID: 6a634475a795a5346901643e484cb3bd
+>>>>>>> b9e7b0208bfd8b73c400ac302701529e86fac43d
 =======
     spriteID: 6a634475a795a5346901643e484cb3bd
 >>>>>>> b9e7b0208bfd8b73c400ac302701529e86fac43d
