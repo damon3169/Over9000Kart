@@ -77,4 +77,16 @@ public class GameManager : MonoBehaviour {
 
 
 	}
+
+    public float getCameraHeight()
+    {
+        float height = 2f * cam.orthographicSize;
+        return height;
+    }
+
+    public float getCameraWidth()
+    {
+        float width = getCameraHeight() * cam.aspect;
+        return width;
+    }
 }
