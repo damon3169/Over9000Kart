@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Obstacle : MonoBehaviour {
-
-	public float speed;
+    public float speed;
 
 	// Use this for initialization
 	void Start () {}
@@ -16,7 +15,7 @@ public class Obstacle : MonoBehaviour {
 
 	private void OnTriggerExit2D(Collider2D collision)
 	{
-		if (transform.position.x + transform.localScale.x / 2 < GameManager.instance.cam.transform)
+		if (transform.position.x + transform.localScale.x / 2 < GameManager.instance.cam.transform.position.x - GameManager.instance.getCameraWidth() / 2)
         {
             Destroy(this.gameObject);
         }
