@@ -48,6 +48,12 @@ public class GameManager : MonoBehaviour {
 
     // singleton gamemanager
 	public static GameManager instance = null;
+    public bool isInFight = false;
+    public float timerFightBegin = 3f;
+    public float timerFightDuration = 3f;
+    private int idFighter;
+    private int idDefenser;
+    private int CorridorVisee;
 
     public void debut_de_partie()
     {
@@ -121,38 +127,85 @@ public class GameManager : MonoBehaviour {
     }
 
 	void Update () {
+        timeSinceLastStarGenerated += Time.deltaTime;
+        if (timeSinceLastStarGenerated >= starGenerationCooldown)
+        {
+            timeSinceLastStarGenerated = 0.0f;
+            GameObject newStar = Instantiate(star);
+            newStar.transform.position = new Vector3(cam.transform.position.x + cam.orthographicSize * cam.aspect, random_height(), -1);
+        }
+
         if (Time.time > timerObstaclesBegin + timerObstacles && !finished)
         {
-            timerObstacles = Random.Range(1, timerObstaclesRange + 1);
+            timerObstacles = Random.Range(1, timerObstaclesRange);
             numberObstacle = Random.Range(1, couloirs.numberOfCorridor);
             timerObstaclesBegin = Time.time;
             usedCouloirs.Clear();
-            //Debug.Log(numberObstacle);
             for (int i = 0; i < numberObstacle; i++)
             {
                 isObstacleSpawn = false;
                 while (!isObstacleSpawn)
                 {
                     SpawnIn = Random.Range(0, couloirs.numberOfCorridor);
+                    float distanceBetweenObstacles = Random.Range(0.5f, randomDistance);
                     if (usedCouloirs == null || !usedCouloirs.Contains(SpawnIn))
                     {
                         usedCouloirs.Add(SpawnIn);
                         GameObject obst = Instantiate(obstacle);
                         float height = 2f * cam.orthographicSize;
                         float width = height * cam.aspect;
-                        obst.transform.position = new Vector3(cam.transform.position.x + width / 2 + 2, couloirs.couloirsList[SpawnIn].y, couloirs.couloirsList[SpawnIn].z);
+                        obst.transform.position = new Vector3(cam.transform.position.x + width / 2 + distanceBetweenObstacles, couloirs.couloirsList[SpawnIn].y, couloirs.couloirsList[SpawnIn].z);
                         isObstacleSpawn = true;
                     }
                 }
             }
         }
 
-        timeSinceLastStarGenerated += Time.deltaTime;
-        if (timeSinceLastStarGenerated >= starGenerationCooldown)
+        if (isInFight)
         {
-            timeSinceLastStarGenerated = 0.0f;
-            GameObject newStar = Instantiate(star);
-            newStar.transform.position = new Vector3 (cam.transform.position.x + cam.orthographicSize * cam.aspect, random_height(), -1);
+            if (Time.time > GameManager.instance.timerFightBegin + GameManager.instance.timerFightDuration)
+            {
+                isInFight = false;
+                if (listShip[idFighter].scoreFight > listShip[idDefenser].scoreFight)
+                {
+
+                    listShip[idFighter].setActualCorridor(CorridorVisee);
+                    listShip[idDefenser].setActualCorridor(listShip[idDefenser].getActualCorridor());
+                    listShip[idDefenser].drawback();
+                }
+                else
+                {
+                    listShip[idFighter].setActualCorridor(listShip[idFighter].getActualCorridor());
+                    listShip[idFighter].drawback();
+                    listShip[idDefenser].setActualCorridor(listShip[idDefenser].getActualCorridor());
+                }
+
+            }
+            else
+            {
+                if (listShip[idFighter].fightingUp)
+                {
+                    if (Input.GetAxis(listShip[idFighter].controleurJoueur + "_ChangeCorridor_K") > 0)
+                    {
+                        listShip[idFighter].scoreFight++;
+                    }
+                    if (Input.GetAxis(listShip[idDefenser].controleurJoueur + "_ChangeCorridor_K") < 0)
+                    {
+                        listShip[idDefenser].scoreFight++;
+                    }
+                }
+                else
+                {
+                    if (Input.GetAxis(listShip[idFighter].controleurJoueur + "_ChangeCorridor_K") < 0)
+                    {
+                        listShip[idFighter].scoreFight++;
+                    }
+                    if (Input.GetAxis(listShip[idDefenser].controleurJoueur + "_ChangeCorridor_K") > 0)
+                    {
+                        listShip[idDefenser].scoreFight++;
+                    }
+                }
+            }
         }
 
         foreach (Ship ship in listShip)
@@ -182,5 +235,59 @@ public class GameManager : MonoBehaviour {
     {
         float width = getCameraHeight() * cam.aspect;
         return width;
+    }
+
+    public void isCorridorUse(int idJoueur, int CorridorVisee)
+    {
+        this.CorridorVisee = CorridorVisee;
+        switch (idJoueur)
+        {
+            case 1:
+                idFighter = 1;
+                idDefenser = 0;
+                break;
+            case 2:
+                idFighter = 0;
+                idDefenser = 1;
+                break;
+        }
+
+        float ecart2 = listShip[1].transform.position.x - listShip[0].transform.position.x;
+        if (ecart2 < 0) ecart2 = -ecart2;
+        if (ecart2 < listShip[0].transform.localScale.x)
+        {
+            if (listShip[idDefenser].getActualCorridor() == CorridorVisee)
+            {
+                if (!listShip[idFighter].isFigtingInCooldown)
+                {
+                    if (listShip[idDefenser].getActualCorridor() < listShip[idFighter].getActualCorridor())
+                    {
+                        listShip[idDefenser].transform.position = new Vector3(listShip[idDefenser].transform.position.x, couloirs.couloirsList[CorridorVisee].y - listShip[idFighter].transform.localScale.x / 2, listShip[idDefenser].transform.position.z);
+                        listShip[idFighter].transform.position = new Vector3(listShip[idFighter].transform.position.x, couloirs.couloirsList[CorridorVisee].y + listShip[idFighter].transform.localScale.x / 2, listShip[idFighter].transform.position.z);
+
+                        listShip[idFighter].fightingUp = false;
+                        listShip[idDefenser].fightingUp = true;
+                    }
+                    else
+                    {
+                        listShip[idDefenser].transform.position = new Vector3(listShip[idDefenser].transform.position.x, couloirs.couloirsList[CorridorVisee].y + listShip[idFighter].transform.localScale.x / 2, listShip[idDefenser].transform.position.z);
+                        listShip[idFighter].transform.position = new Vector3(listShip[idFighter].transform.position.x, couloirs.couloirsList[CorridorVisee].y - listShip[idFighter].transform.localScale.x / 2, listShip[idFighter].transform.position.z);
+                        listShip[idFighter].fightingUp = true;
+                        listShip[idDefenser].fightingUp = false;
+
+                    }
+
+                    isInFight = true;
+                    timerFightBegin = Time.time;
+                    listShip[idFighter].cooldownFightBegin = Time.time;
+                    listShip[idFighter].isFigtingInCooldown = true;
+                }
+                else
+                {
+                    listShip[idFighter].isThereAndCooldown = true;
+                }
+            }
+        }
+
     }
 }

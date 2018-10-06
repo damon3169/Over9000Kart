@@ -7,10 +7,17 @@ public class Ship : MonoBehaviour
 
 	public float speed; // vitesse du vaisseau
 	public int idJoueur; // numéro du joueur controlant le vaisseau
-	string controleurJoueur; // nom du bouton correspondant au numéro de joueur
+	public string controleurJoueur; // nom du bouton correspondant au numéro de joueur
 	private int actualCorridor; // couloir dans lequel le vaisseau se trouve
 	private couloirs corridor; 
 	public float score; // score du vaisseau
+    public float scoreFight = 0;
+    public bool fightingUp;
+    public float cooldownFightBegin;
+    public float cooldownFightDuration = 6f;
+    public bool isFigtingInCooldown = false;
+    public bool isThereAndCooldown = false;
+
 
     bool dPadPressed;
 
@@ -38,47 +45,65 @@ public class Ship : MonoBehaviour
 	{
         if (!GameManager.instance.finished)
         {
-            score = transform.position.x * 100 + 8000 - GameManager.instance.getCameraWidth(); // calcul du score selon la position en x du vaisseau
-
-            // freine le vaisseau en continu tant qu'on est au dessus de la vitesse minimum
-            if (speed > GameManager.instance.speedMin) speed -= GameManager.instance.frein;
-
-            // mouvement du vaisseau
-            if (speed > GameManager.instance.speedMin && transform.position.x > GameManager.instance.xMin) transform.Translate(Time.deltaTime * speed, 0, 0);
-            else speed = GameManager.instance.speedMin + 0.1f;
-
-            // déplacement de couloir
-            if (Input.GetButtonDown(controleurJoueur + "_ChangeCorridor_K") || (Input.GetAxis(controleurJoueur + "_ChangeCorridor_J") != 0 && !dPadPressed))
+            if (!GameManager.instance.isInFight)
             {
-                dPadPressed = true;
-                if (Input.GetAxis(controleurJoueur + "_ChangeCorridor_K") < 0 || Input.GetAxis(controleurJoueur + "_ChangeCorridor_J") < 0)
-                {
-                    if (actualCorridor > 0)
-                    {
-                        setActualCorridor(actualCorridor - 1);
-                        this.transform.position = new Vector3(transform.position.x, corridor.couloirsList[actualCorridor].y, transform.position.z);
-                    }
+                score = transform.position.x * 100 + 8000 - GameManager.instance.getCameraWidth(); // calcul du score selon la position en x du vaisseau
 
-                }
-                if (Input.GetAxis(controleurJoueur + "_ChangeCorridor_K") > 0 || Input.GetAxis(controleurJoueur + "_ChangeCorridor_J") > 0)
+                // freine le vaisseau en continu tant qu'on est au dessus de la vitesse minimum
+                if (speed > GameManager.instance.speedMin) speed -= GameManager.instance.frein;
+
+                // mouvement du vaisseau
+                if (speed > GameManager.instance.speedMin && transform.position.x > GameManager.instance.xMin) transform.Translate(Time.deltaTime * speed, 0, 0);
+                else speed = GameManager.instance.speedMin + 0.1f;
+
+                // déplacement de couloir
+                if (Input.GetButtonDown(controleurJoueur + "_ChangeCorridor_K") || (Input.GetAxis(controleurJoueur + "_ChangeCorridor_J") != 0 && !dPadPressed))
                 {
-                    if (actualCorridor < corridor.couloirsList.Count - 1)
+                    dPadPressed = true;
+                    if (Input.GetAxis(controleurJoueur + "_ChangeCorridor_K") < 0 || Input.GetAxis(controleurJoueur + "_ChangeCorridor_J") < 0)
                     {
-                        setActualCorridor(actualCorridor + 1);
-                        this.transform.position = new Vector3(transform.position.x, corridor.couloirsList[actualCorridor].y, transform.position.z);
+                        if (actualCorridor > 0)
+                        {
+                            GameManager.instance.isCorridorUse(idJoueur, actualCorridor - 1);
+                            if (!GameManager.instance.isInFight && !isThereAndCooldown)
+                            {
+                                setActualCorridor(actualCorridor - 1);
+                            }
+                        }
+
+                    }
+                    if (Input.GetAxis(controleurJoueur + "_ChangeCorridor_K") > 0 || Input.GetAxis(controleurJoueur + "_ChangeCorridor_J") > 0)
+                    {
+                        if (actualCorridor < corridor.couloirsList.Count - 1)
+                        {
+                            GameManager.instance.isCorridorUse(idJoueur, actualCorridor + 1);
+                            if (!GameManager.instance.isInFight && !isThereAndCooldown)
+                            {
+                                setActualCorridor(actualCorridor + 1);
+                            }
+                        }
+                    }
+                }
+                else if (Input.GetAxis(controleurJoueur + "_ChangeCorridor_J") == 0 && dPadPressed) dPadPressed = false;
+
+                // si le joueur mash les boutons pour accelerer et que sa vitesse n'est pas supérieure à la vitesse maximale ni inférieure à la vitesse minimale
+                if ((Input.GetButtonDown(controleurJoueur + "_SpeedUp_K") || Input.GetButtonDown(controleurJoueur + "_SpeedUp_J")) && speed < GameManager.instance.speedMax)
+                {
+                    speed += GameManager.instance.acceleration; // on augmente la vitesse selon le niveau d'acceleration
+                    if (transform.position.x <= GameManager.instance.xMin)
+                    {
+                        Vector3 v = new Vector3(GameManager.instance.xMin + 0.01f, transform.position.y, transform.position.z);
+                        transform.position = v;
                     }
                 }
             }
-            else if(Input.GetAxis(controleurJoueur + "_ChangeCorridor_J") == 0 && dPadPressed) dPadPressed = false;
 
-            // si le joueur mash les boutons pour accelerer et que sa vitesse n'est pas supérieure à la vitesse maximale ni inférieure à la vitesse minimale
-            if ((Input.GetButtonDown(controleurJoueur + "_SpeedUp_K") || Input.GetButtonDown(controleurJoueur + "_SpeedUp_J")) && speed < GameManager.instance.speedMax)
+            if (isFigtingInCooldown)
             {
-                speed += GameManager.instance.acceleration; // on augmente la vitesse selon le niveau d'acceleration
-                if(transform.position.x <= GameManager.instance.xMin)
+                if (Time.time > cooldownFightBegin + cooldownFightDuration)
                 {
-                    Vector3 v = new Vector3(GameManager.instance.xMin+0.01f, transform.position.y, transform.position.z);
-                    transform.position = v;
+                    isThereAndCooldown = false;
+                    isFigtingInCooldown = false;
                 }
             }
         } else {
@@ -90,10 +115,17 @@ public class Ship : MonoBehaviour
         }
 	}
 
-	public void setActualCorridor(int corridor)
-	{
-		actualCorridor = corridor;
-	}
+    public int getActualCorridor()
+    {
+        return actualCorridor;
+    }
+
+    public void setActualCorridor(int newcorridor)
+    {
+        actualCorridor = newcorridor;
+        corridor = GameManager.instance.couloirs;
+        transform.position = new Vector3(transform.position.x, corridor.couloirsList[actualCorridor].y, transform.position.z);
+    }
 
     public void drawback()
     {
@@ -102,6 +134,27 @@ public class Ship : MonoBehaviour
         {
             Vector3 v = new Vector3(GameManager.instance.xMin, transform.position.y, transform.position.z);
             transform.position = v;
+        }
+        if (GameManager.instance.isInFight)
+        {
+            if (idJoueur == 1)
+            {
+                Ship otherShip = GameManager.instance.getListShip()[0];
+                if (otherShip.transform.position.x - GameManager.instance.drawbackObstacle > GameManager.instance.xMin) otherShip.transform.Translate(-GameManager.instance.drawbackObstacle, 0, 0);
+                else
+                {
+                    Vector3 v = new Vector3(GameManager.instance.xMin, otherShip.transform.position.y, otherShip.transform.position.z);
+                    otherShip.transform.position = v;
+                }
+            } else {
+                Ship otherShip = GameManager.instance.getListShip()[1];
+                if (otherShip.transform.position.x - GameManager.instance.drawbackObstacle > GameManager.instance.xMin) otherShip.transform.Translate(-GameManager.instance.drawbackObstacle, 0, 0);
+                else
+                {
+                    Vector3 v = new Vector3(GameManager.instance.xMin, otherShip.transform.position.y, otherShip.transform.position.z);
+                    otherShip.transform.position = v;
+                }
+            }
         }
     }
 }
