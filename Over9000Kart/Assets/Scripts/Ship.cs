@@ -13,7 +13,6 @@ public class Ship : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         transform.position = new Vector3((GameManager.instance.getCameraWidth() / 10) - (GameManager.instance.getCameraWidth()/2), transform.position.y, transform.position.z);
-        score = transform.position.x - GameManager.instance.getCameraWidth();
         speed = 0f; ; // vitesse de base du vaisseau
         switch(idJoueur) // 
         {
@@ -28,7 +27,7 @@ public class Ship : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        score = transform.position.x - GameManager.instance.getCameraWidth();
+        score = transform.position.x*100 + 8000 - GameManager.instance.getCameraWidth();
         if (Input.GetButtonDown(controleurJoueur+"_SpeedUp") && speed<GameManager.instance.speedMax) speed += GameManager.instance.acceleration;
         if (speed > GameManager.instance.bufferSpeed) speed -= GameManager.instance.frein; // frein naturel
         //score = gameObject.transform.position.x;

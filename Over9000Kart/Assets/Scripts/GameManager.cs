@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
@@ -49,7 +48,7 @@ public class GameManager : MonoBehaviour {
 		{
 			listShip.Add(ship.GetComponent<Ship>());
 		}
-		//couloirs.createCorridors();
+		couloirs.createCorridors();
 		listShip[0].transform.position = new Vector3(cam.transform.position.x - width / 2+2, couloirs.couloirsList[couloirs.couloirsList.Count - 1].y, -1);
 		listShip[1].transform.position = new Vector3(cam.transform.position.x - width / 2+2, couloirs.couloirsList[0].y, -1);
 	}
@@ -67,18 +66,6 @@ public class GameManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		foreach(Ship ship in listShip)
-        {
-            switch(ship.idJoueur)
-            {
-                case 1:
-                    uiManager.textSpeedJ1Value.GetComponent<TextMeshProUGUI>().text = ship.score.ToString();
-                    break;
-                case 2:
-                    uiManager.textSpeedJ2Value.GetComponent<TextMeshProUGUI>().text = ship.score.ToString();
-                    break;
-            }
-        }
 
 		if (Time.time > timerObstaclesBegin + timerObstacles) {
 			timerObstacles = Random.Range(1, timerObstaclesRange);
@@ -107,6 +94,10 @@ public class GameManager : MonoBehaviour {
 
 	}
 
+    public List<Ship> getListShip()
+    {
+        return listShip;
+    }
 
     public float getCameraHeight()
     {
