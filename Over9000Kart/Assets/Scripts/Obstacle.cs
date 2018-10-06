@@ -4,16 +4,14 @@ using UnityEngine;
 
 public class Obstacle : MonoBehaviour {
 
-	public float speed = 10;
-
-	Vector2 couloir;
+    public float speed;
 
 	// Use this for initialization
-	void Start () {
-	}
+	void Start () {}
 	
 	// Update is called once per frame
 	void Update () {
+<<<<<<< HEAD
 		goLeft();
 		
 	}
@@ -38,6 +36,13 @@ public class Obstacle : MonoBehaviour {
         {
             Debug.Log("collision");
             collision.gameObject.GetComponent<Ship>().drawback();
+=======
+        transform.Translate(Vector2.left * Time.deltaTime * speed);
+    
+		if (transform.position.x + transform.localScale.x / 2 < GameManager.instance.cam.transform.position.x - GameManager.instance.getCameraWidth() / 2)
+        {
+            Destroy(this.gameObject);
+>>>>>>> ef97d82707e956a4b9301bb5f38b9932a5e93233
         }
 	}
 }

@@ -21,12 +21,16 @@ public class GameManager : MonoBehaviour {
 	private int numberObstacle;
 	private List<int> usedCouloirs;
 	public GameObject obstacle;
+    public GameObject star;
 	private int SpawnIn;
 	private bool isObstacleSpawn;
 	public GameObject background;
 	public float randomDistance = 3;
 	public Camera cam;
 	public static GameManager instance = null;
+
+    float timeSinceLastStarGenerated = 0.0f;
+    const float starGenerationCooldown = 0.01f;
 
 	void Awake()
 	{
@@ -56,8 +60,18 @@ public class GameManager : MonoBehaviour {
 		listShip[1].transform.position = new Vector3(cam.transform.position.x - width / 2+2, couloirs.couloirsList[0].y, -1);
 	}
 
-	// Use this for initialization
-	void Start () {
+    private float random_width()
+    {
+        return cam.transform.position.x - cam.orthographicSize * cam.aspect + Random.Range(0.0f, cam.orthographicSize * cam.aspect * 2);
+    }
+
+    private float random_height()
+    {
+        return cam.transform.position.y - cam.orthographicSize + Random.Range(0.0f, cam.orthographicSize * 2);
+    }
+
+    // Use this for initialization
+    void Start () {
         uiManager = GameObjectUIManager.GetComponent<UiManager>();
          // initalisation de la liste
        
@@ -65,10 +79,51 @@ public class GameManager : MonoBehaviour {
 		timerObstacles = Random.Range(1, timerObstaclesRange);
 		usedCouloirs = new List<int>();
 		cam = Camera.main;
-	}
+
+        int nbStars = Random.Range(500, 5000);
+
+        for (int i = 0; i < nbStars; i++)
+        {
+            GameObject newStar = Instantiate(star);
+            newStar.transform.position = new Vector3(random_width(), random_height(), -1);
+        }
+    }
 
 	// Update is called once per frame
 	void Update () {
+        if (Time.time > timerObstaclesBegin + timerObstacles)
+        {
+            timerObstacles = Random.Range(1, timerObstaclesRange + 1);
+            numberObstacle = Random.Range(1, couloirs.numberOfCorridor);
+            timerObstaclesBegin = Time.time;
+            usedCouloirs.Clear();
+            Debug.Log(numberObstacle);
+            for (int i = 0; i < numberObstacle; i++)
+            {
+                isObstacleSpawn = false;
+                while (!isObstacleSpawn)
+                {
+                    SpawnIn = Random.Range(0, couloirs.numberOfCorridor);
+                    if (usedCouloirs == null || !usedCouloirs.Contains(SpawnIn))
+                    {
+                        usedCouloirs.Add(SpawnIn);
+                        GameObject obst = Instantiate(obstacle);
+                        float height = 2f * cam.orthographicSize;
+                        float width = height * cam.aspect;
+                        obst.transform.position = new Vector3(cam.transform.position.x + width / 2 + 2, couloirs.couloirsList[SpawnIn].y, couloirs.couloirsList[SpawnIn].z);
+                        isObstacleSpawn = true;
+                    }
+                }
+            }
+        }
+
+        timeSinceLastStarGenerated += Time.deltaTime;
+        if (timeSinceLastStarGenerated >= starGenerationCooldown)
+        {
+            timeSinceLastStarGenerated = 0.0f;
+            GameObject newStar = Instantiate(star);
+            newStar.transform.position = new Vector3 (cam.transform.position.x + cam.orthographicSize * cam.aspect, random_height(), -1);
+        }
 
 		if (Time.time > timerObstaclesBegin + timerObstacles) {
 			timerObstacles = Random.Range(1, timerObstaclesRange);
@@ -115,5 +170,4 @@ public class GameManager : MonoBehaviour {
     }
 
 	public void test() { }
-
 }
