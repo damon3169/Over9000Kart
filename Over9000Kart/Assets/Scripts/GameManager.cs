@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour {
     public GameObject GameObjectUIManager;
     UiManager uiManager;
 	public couloirs couloirs;
-	public float timerObstaclesRange = 10;
+	public float timerObstaclesRange = 5;
 	public float timerObstacles;
 	private float timerObstaclesBegin;
 	private int numberObstacle;
@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour {
 	private int SpawnIn;
 	private bool isObstacleSpawn;
 	public GameObject background;
+	Camera cam;
 
 
 	// Use this for initialization
@@ -32,6 +33,7 @@ public class GameManager : MonoBehaviour {
 		timerObstaclesBegin = 0;
 		timerObstacles = Random.Range(1, timerObstaclesRange);
 		usedCouloirs = new List<int>();
+		cam = Camera.main;
 	}
 
 	// Update is called once per frame
@@ -64,7 +66,9 @@ public class GameManager : MonoBehaviour {
 					{
 						usedCouloirs.Add(SpawnIn);
 						GameObject obst = Instantiate(obstacle);
-						obst.transform.position= new Vector3(background.transform.position.x+background.transform.localScale.x/2 + 2, couloirs.couloirsList[SpawnIn].y, couloirs.couloirsList[SpawnIn].z);
+						float height = 2f * cam.orthographicSize;
+						float width = height * cam.aspect;
+						obst.transform.position= new Vector3(cam.transform.position.x+ width / 2 + 2, couloirs.couloirsList[SpawnIn].y, couloirs.couloirsList[SpawnIn].z);
 						isObstacleSpawn = true;
 					}
 				}

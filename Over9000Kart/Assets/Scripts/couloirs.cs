@@ -13,14 +13,17 @@ public class couloirs : MonoBehaviour {
 	private float distanceCorridor = 0;
 	public GameObject test;
 	private float firstCorridorDistance;
+	Camera cam ;
 
 	void Start () {
-		lengthCorridor = background.transform.localScale.y/ numberOfCorridor;
-		distanceCorridor = (background.transform.position.y - background.transform.localScale.y / 2) + lengthCorridor / 2;
+		cam = Camera.main;
+
+		lengthCorridor = 2f * cam.orthographicSize / numberOfCorridor;
+		distanceCorridor = (cam.transform.position.y - 2f * cam.orthographicSize / 2) + lengthCorridor / 2;
 		firstCorridorDistance = distanceCorridor;
 
 		for (int i = 0; i< numberOfCorridor; i ++) {
-			couloirsList.Add((new Vector3(background.transform.position.x, distanceCorridor,-1)));
+			couloirsList.Add((new Vector3(cam.transform.position.x, distanceCorridor,-1)));
 			distanceCorridor = distanceCorridor + lengthCorridor;
 		}
 	}
