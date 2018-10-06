@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour {
 		{
 			listShip.Add(ship.GetComponent<Ship>());
 		}
-		couloirs.createCorridors();
+		//couloirs.createCorridors();
 		listShip[0].transform.position = new Vector3(cam.transform.position.x - width / 2+2, couloirs.couloirsList[couloirs.couloirsList.Count - 1].y, -1);
 		listShip[1].transform.position = new Vector3(cam.transform.position.x - width / 2+2, couloirs.couloirsList[0].y, -1);
 	}

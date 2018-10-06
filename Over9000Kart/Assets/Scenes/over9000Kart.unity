@@ -681,7 +681,7 @@ GameObject:
   - component: {fileID: 744579164}
   - component: {fileID: 744579163}
   m_Layer: 0
-  m_Name: LigneCouloir (1)
+  m_Name: LigneCouloir2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -748,7 +748,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 744579162}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: -1}
+  m_LocalPosition: {x: 0, y: -0.04, z: -1}
   m_LocalScale: {x: 23.423342, y: 0.1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1371,7 +1371,7 @@ GameObject:
   - component: {fileID: 1766175185}
   - component: {fileID: 1766175184}
   m_Layer: 0
-  m_Name: LigneCouloir (2)
+  m_Name: LigneCouloir3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1438,7 +1438,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1766175183}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -3, z: -1}
+  m_LocalPosition: {x: 0, y: -2.54, z: -1}
   m_LocalScale: {x: 23.423342, y: 0.1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1456,7 +1456,7 @@ GameObject:
   - component: {fileID: 1781611610}
   - component: {fileID: 1781611609}
   m_Layer: 0
-  m_Name: LigneCouloir
+  m_Name: LigneCouloir1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1523,7 +1523,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1781611608}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 3, z: -1}
+  m_LocalPosition: {x: 0, y: 2.5, z: -1}
   m_LocalScale: {x: 23.423342, y: 0.1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

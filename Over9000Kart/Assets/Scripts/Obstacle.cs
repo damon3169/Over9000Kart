@@ -10,8 +10,6 @@ public class Obstacle : MonoBehaviour {
 
 	Camera camera;
 
-
-
 	// Use this for initialization
 	void Start () {
 		camera = Camera.main;
