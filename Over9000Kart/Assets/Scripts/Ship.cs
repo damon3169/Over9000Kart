@@ -70,6 +70,6 @@ public class Ship : MonoBehaviour
     public void drawback()
     {
         Debug.Log("drawback " + controleurJoueur);
-        gameObject.transform.Translate(-0.1f, 0, 0);
+        gameObject.transform.Translate(-1f, 0, 0);
     }
 }
