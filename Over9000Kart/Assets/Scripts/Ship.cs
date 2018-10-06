@@ -6,7 +6,6 @@ public class Ship : MonoBehaviour
 {
 
 	public float speed; // vitesse du vaisseau
-	public Vector2 position; // position x y du vaisseau
 	public int idJoueur; // numéro du joueur controlant le vaisseau
 	string controleurJoueur; // nom du bouton correspondant au numéro de joueur
 	private int actualCorridor;
@@ -67,4 +66,10 @@ public class Ship : MonoBehaviour
 	{
 		actualCorridor = corridor;
 	}
+
+    public void drawback()
+    {
+        Debug.Log("drawback " + controleurJoueur);
+        gameObject.transform.Translate(-0.1f, 0, 0);
+    }
 }
