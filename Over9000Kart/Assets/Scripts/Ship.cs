@@ -44,10 +44,10 @@ public class Ship : MonoBehaviour
         else speed = GameManager.instance.speedMin + 0.1f;
 
         // déplacement de couloir
-		if (Input.GetButtonDown(controleurJoueur + "_ChangeCorridor"))
+		if (Input.GetButtonDown(controleurJoueur + "_ChangeCorridor_K") || Input.GetButtonDown(controleurJoueur + "_ChangeCorridor_J"))
 		{
-			if (Input.GetAxis(controleurJoueur + "_ChangeCorridor") < 0)
-			{
+			if (Input.GetAxis(controleurJoueur + "_ChangeCorridor_K") < 0 || Input.GetAxis(controleurJoueur + "_ChangeCorridor_J") < 0)
+            {
 				if (actualCorridor > 0)
 				{
 					setActualCorridor(actualCorridor - 1);
@@ -55,7 +55,7 @@ public class Ship : MonoBehaviour
 				}
 
 			}
-			if (Input.GetAxis(controleurJoueur + "_ChangeCorridor") > 0)
+			if (Input.GetAxis(controleurJoueur + "_ChangeCorridor_K") > 0 || Input.GetAxis(controleurJoueur + "_ChangeCorridor_J") > 0)
 			{
 				if (actualCorridor < corridor.couloirsList.Count-1)
 				{
@@ -66,7 +66,7 @@ public class Ship : MonoBehaviour
 		}
 
         // si le joueur mash les boutons pour accelerer et que sa vitesse n'est pas supérieure à la vitesse maximale ni inférieure à la vitesse minimale
-        if (Input.GetButtonDown(controleurJoueur + "_SpeedUp") && speed < GameManager.instance.speedMax)
+        if ((Input.GetButtonDown(controleurJoueur + "_SpeedUp_K") || Input.GetButtonDown(controleurJoueur + "_SpeedUp_J")) && speed < GameManager.instance.speedMax)
         {
             speed += GameManager.instance.acceleration; // on augmente la vitesse selon le niveau d'acceleration
             if(transform.position.x <= GameManager.instance.xMin)
