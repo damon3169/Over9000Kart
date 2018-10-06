@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour {
     public float acceleration; // modificateur d'acceleration d'un vaisseau
     public float bufferSpeed; // buffer nécéssaire de mash de bouton avant de commencer à accelerer
     public float xMin; // position x minimale d'un vaisseau sur l'écran
+    public float xMax; // position x maximale d'un vaisseau sur l'écran : victoire
+    public float drawbackObstacle; // distance de recul suite à une collision d'obstacle
 
     List<Ship> listShip; // liste des vaisseaux dans une partie
 

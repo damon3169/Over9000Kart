@@ -684,10 +684,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speedMin: -0.1
   speedMax: 3
-  frein: 0.015
+  frein: 0.01
   acceleration: 0.1
   bufferSpeed: -1
   xMin: -10.5
+  xMax: 10.5
+  drawbackObstacle: 1
   GameObjectUIManager: {fileID: 1511060701}
   couloirs: {fileID: 707334165}
   timerObstaclesRange: 2
