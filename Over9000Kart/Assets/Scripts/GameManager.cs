@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
-    // variables statiques
+    // variables statiques du vaisseau
     public float speedMin;
     public float speedMax;
     public float frein;
