@@ -169,7 +169,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4054585628788682, guid: b8fade9af10b6164f8e9932a5530772d, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -7.82
+      value: -9.71
       objectReference: {fileID: 0}
     - target: {fileID: 4054585628788682, guid: b8fade9af10b6164f8e9932a5530772d, type: 2}
       propertyPath: m_LocalPosition.y
@@ -637,12 +637,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5acd6c7da6e305144abc311c38e788cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speedMin: -0.2
+  speedMax: 3
+  frein: 0.015
+  acceleration: 0.1
+  bufferSpeed: -1
   GameObjectUIManager: {fileID: 1511060701}
   couloirs: {fileID: 707334165}
   timerObstaclesRange: 10
   timerObstacles: 0
   obstacle: {fileID: 1474996122815346, guid: 10abed79ae46cc244aa364535d370468, type: 2}
   background: {fileID: 1327956324}
+  randomDistance: 3
+  cam: {fileID: 0}
 --- !u!4 &579483826
 Transform:
   m_ObjectHideFlags: 0
@@ -803,6 +810,11 @@ Prefab:
         type: 2}
       propertyPath: idJoueur
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114690439236281274, guid: b8fade9af10b6164f8e9932a5530772d,
+        type: 2}
+      propertyPath: speedMin
+      value: -0.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8fade9af10b6164f8e9932a5530772d, type: 2}

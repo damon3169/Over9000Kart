@@ -1,9 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
+
+    // variables statiques
+    public float speedMin;
+    public float speedMax;
+    public float frein;
+    public float acceleration;
+    public float bufferSpeed;
 
     List<Ship> listShip; // liste des vaisseaux dans une partie
     public GameObject GameObjectUIManager;
@@ -19,10 +25,8 @@ public class GameManager : MonoBehaviour {
 	private bool isObstacleSpawn;
 	public GameObject background;
 	public float randomDistance = 3;
-	Camera cam;
+	public Camera cam;
 	public static GameManager instance = null;
-
-
 
 	void Awake()
 	{
@@ -64,18 +68,6 @@ public class GameManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		foreach(Ship ship in listShip)
-        {
-            switch(ship.idJoueur)
-            {
-                case 1:
-                    uiManager.textSpeedJ1Value.GetComponent<TextMeshProUGUI>().text = ship.speed.ToString();
-                    break;
-                case 2:
-                    uiManager.textSpeedJ2Value.GetComponent<TextMeshProUGUI>().text = ship.speed.ToString();
-                    break;
-            }
-        }
 
 		if (Time.time > timerObstaclesBegin + timerObstacles) {
 			timerObstacles = Random.Range(1, timerObstaclesRange);
@@ -104,6 +96,10 @@ public class GameManager : MonoBehaviour {
 
 	}
 
+    public List<Ship> getListShip()
+    {
+        return listShip;
+    }
 
     public float getCameraHeight()
     {
