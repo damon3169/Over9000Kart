@@ -8,13 +8,9 @@ public class Obstacle : MonoBehaviour {
 
 	 Vector2 couloir;
 
-	Camera camera;
-
-
 
 	// Use this for initialization
 	void Start () {
-		camera = Camera.main;
 	}
 	
 	// Update is called once per frame
