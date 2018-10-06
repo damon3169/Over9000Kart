@@ -10,7 +10,7 @@ public class Ship : MonoBehaviour
 	public int idJoueur; // numéro du joueur controlant le vaisseau
 	string controleurJoueur; // nom du bouton correspondant au numéro de joueur
 	private int actualCorridor;
-	public couloirs corridor;
+	private couloirs corridor;
 	public float score;
 
 
@@ -18,7 +18,9 @@ public class Ship : MonoBehaviour
 	void Start () {
         transform.position = new Vector3((GameManager.instance.getCameraWidth() / 10) - (GameManager.instance.getCameraWidth()/2), transform.position.y, transform.position.z);
         speed = 0f; ; // vitesse de base du vaisseau
-        switch(idJoueur) // 
+		corridor = GameManager.instance.couloirs;
+
+		switch (idJoueur) // 
         {
             case 1:
                 controleurJoueur = "Player1";
@@ -49,9 +51,13 @@ public class Ship : MonoBehaviour
 					this.transform.position = new Vector3(transform.position.x, corridor.couloirsList[actualCorridor].y, transform.position.z);
 				}
 
-				if (actualCorridor > 0)
+			}
+			if (Input.GetAxis(controleurJoueur + "_ChangeCorridor") > 0)
+			{
+				if (actualCorridor < corridor.couloirsList.Count-1)
 				{
-
+					setActualCorridor(actualCorridor + 1);
+					this.transform.position = new Vector3(transform.position.x, corridor.couloirsList[actualCorridor].y, transform.position.z);
 				}
 			}
 		}
