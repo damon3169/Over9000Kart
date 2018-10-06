@@ -222,6 +222,11 @@ Prefab:
       propertyPath: speed
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114690439236281274, guid: b8fade9af10b6164f8e9932a5530772d,
+        type: 2}
+      propertyPath: speedMin
+      value: -0.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8fade9af10b6164f8e9932a5530772d, type: 2}
   m_IsPrefabAsset: 0
@@ -751,7 +756,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4054585628788682, guid: b8fade9af10b6164f8e9932a5530772d, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -7.66
+      value: -9.6
       objectReference: {fileID: 0}
     - target: {fileID: 4054585628788682, guid: b8fade9af10b6164f8e9932a5530772d, type: 2}
       propertyPath: m_LocalPosition.y

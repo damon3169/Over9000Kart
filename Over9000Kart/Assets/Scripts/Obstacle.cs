@@ -6,7 +6,7 @@ public class Obstacle : MonoBehaviour {
 
 	public float speed = 10;
 
-	 Vector2 couloir;
+	Vector2 couloir;
 
 
 	// Use this for initialization
