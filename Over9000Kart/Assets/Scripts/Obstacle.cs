@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Obstacle : MonoBehaviour {
-
-    public float speed;
-
+public class Obstacle : Star {
 	// Use this for initialization
 	void Start () {}
 	
 	// Update is called once per frame
 	void Update () {
+<<<<<<< HEAD
 <<<<<<< HEAD
 		goLeft();
 		
@@ -44,5 +42,8 @@ public class Obstacle : MonoBehaviour {
             Destroy(this.gameObject);
 >>>>>>> ef97d82707e956a4b9301bb5f38b9932a5e93233
         }
+=======
+        
+>>>>>>> a3ee3a99262fa8b00bace20e9d97140831c797a2
 	}
 }
