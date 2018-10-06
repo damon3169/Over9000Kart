@@ -5,6 +5,13 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
+    // variables statiques
+    public float speedMin;
+    public float speedMax;
+    public float frein;
+    public float acceleration;
+    public float bufferSpeed;
+
     List<Ship> listShip; // liste des vaisseaux dans une partie
     public GameObject GameObjectUIManager;
     UiManager uiManager;
@@ -19,10 +26,8 @@ public class GameManager : MonoBehaviour {
 	private bool isObstacleSpawn;
 	public GameObject background;
 	public float randomDistance = 3;
-	Camera cam;
+	public Camera cam;
 	public static GameManager instance = null;
-
-
 
 	void Awake()
 	{
@@ -67,10 +72,10 @@ public class GameManager : MonoBehaviour {
             switch(ship.idJoueur)
             {
                 case 1:
-                    uiManager.textSpeedJ1Value.GetComponent<TextMeshProUGUI>().text = ship.speed.ToString();
+                    uiManager.textSpeedJ1Value.GetComponent<TextMeshProUGUI>().text = ship.score.ToString();
                     break;
                 case 2:
-                    uiManager.textSpeedJ2Value.GetComponent<TextMeshProUGUI>().text = ship.speed.ToString();
+                    uiManager.textSpeedJ2Value.GetComponent<TextMeshProUGUI>().text = ship.score.ToString();
                     break;
             }
         }

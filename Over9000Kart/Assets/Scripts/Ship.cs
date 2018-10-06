@@ -5,18 +5,15 @@ using UnityEngine;
 public class Ship : MonoBehaviour {
 
     public float speed; // vitesse du vaisseau
-    public int score; // score de vitesse du vaisseau 
+    public float score; // score de vitesse du vaisseau 
     //public Vector2 position; // position x y du vaisseau
     public int idJoueur; // numéro du joueur controlant le vaisseau
     string controleurJoueur; // nom du bouton correspondant au numéro de joueur
-    public float speedMin;
-    GameManager gameManager;
 
 	// Use this for initialization
 	void Start () {
-        //gameManager = new GameManager();
-        //transform.position = new Vector3(gameManager.getCameraWidth() % 25, transform.position.y, transform.position.z);
-        score = 0;
+        transform.position = new Vector3((GameManager.instance.getCameraWidth() / 10) - (GameManager.instance.getCameraWidth()/2), transform.position.y, transform.position.z);
+        score = transform.position.x - GameManager.instance.getCameraWidth();
         speed = 0f; ; // vitesse de base du vaisseau
         switch(idJoueur) // 
         {
@@ -27,16 +24,17 @@ public class Ship : MonoBehaviour {
                 controleurJoueur = "Player2";
                 break;
         }
-        Debug.Log(controleurJoueur);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetButtonDown(controleurJoueur+"_SpeedUp") && speed<3) speed += 0.2f;
-        if (speed > -1) speed -= 0.02f; // frein naturel
+        score = transform.position.x - GameManager.instance.getCameraWidth();
+        if (Input.GetButtonDown(controleurJoueur+"_SpeedUp") && speed<GameManager.instance.speedMax) speed += GameManager.instance.acceleration;
+        if (speed > GameManager.instance.bufferSpeed) speed -= GameManager.instance.frein; // frein naturel
         //score = gameObject.transform.position.x;
 
-        if (speed > speedMin) gameObject.transform.Translate(Time.deltaTime * speed, 0, 0);
-        else speed = speedMin+0.1f;
+        if (speed > GameManager.instance.speedMin) gameObject.transform.Translate(Time.deltaTime * speed, 0, 0);
+        else speed = GameManager.instance.speedMin +0.1f;
+        Debug.Log(score);
 	}
 }
