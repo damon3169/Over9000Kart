@@ -180,10 +180,10 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.6, y: 1.6}
+    newSize: {x: 1.6, y: 1.6}
+    adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
@@ -233,8 +233,7 @@ Prefab:
       propertyPath: m_Name
       value: Ship1
       objectReference: {fileID: 0}
-    - target: {fileID: 23349295618295700, guid: b8fade9af10b6164f8e9932a5530772d,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 7134fa255f2757441acf4f280e2fd03c, type: 2}
@@ -257,8 +256,14 @@ Prefab:
       propertyPath: speedMin
       value: -0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 212292940662510004, guid: b8fade9af10b6164f8e9932a5530772d,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4ce33b494733b1a45b1a0aa780ed71b9,
+        type: 3}
     m_RemovedComponents:
-    - {fileID: 65514159329710468, guid: b8fade9af10b6164f8e9932a5530772d, type: 2}
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: b8fade9af10b6164f8e9932a5530772d, type: 2}
   m_IsPrefabAsset: 0
 --- !u!1 &229383956
@@ -786,36 +791,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &824485392 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1869331373585730, guid: b8fade9af10b6164f8e9932a5530772d,
-    type: 2}
-  m_PrefabInternal: {fileID: 870466991}
---- !u!61 &824485394
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 824485392}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!1001 &870466991
 Prefab:
   m_ObjectHideFlags: 0
@@ -859,27 +834,7 @@ Prefab:
       propertyPath: m_Name
       value: Ship2
       objectReference: {fileID: 0}
-    - target: {fileID: 23349295618295700, guid: b8fade9af10b6164f8e9932a5530772d,
-        type: 2}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 4e0c43e15dc350649bcfa95b0db27d68, type: 2}
-    - target: {fileID: 1869331373585730, guid: b8fade9af10b6164f8e9932a5530772d, type: 2}
-      propertyPath: m_TagString
-      value: Ship
-      objectReference: {fileID: 0}
-    - target: {fileID: 114690439236281274, guid: b8fade9af10b6164f8e9932a5530772d,
-        type: 2}
-      propertyPath: idJoueur
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114690439236281274, guid: b8fade9af10b6164f8e9932a5530772d,
-        type: 2}
-      propertyPath: speedMin
-      value: -0.2
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 65514159329710468, guid: b8fade9af10b6164f8e9932a5530772d, type: 2}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8fade9af10b6164f8e9932a5530772d, type: 2}
   m_IsPrefabAsset: 0
 --- !u!1 &922574652
