@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Star : MonoBehaviour
 {
-
     public float speed;
 
     // Use this for initialization
