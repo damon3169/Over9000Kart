@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour {
     public GameObject GameObjectUIManager;
     UiManager uiManager;
 	public couloirs couloirs;
-	public float timerObstaclesRange = 5;
+	public float timerObstaclesRange = 3;
 	public float timerObstacles;
 	private float timerObstaclesBegin;
 	private int numberObstacle;
@@ -18,18 +18,42 @@ public class GameManager : MonoBehaviour {
 	private int SpawnIn;
 	private bool isObstacleSpawn;
 	public GameObject background;
+	public float randomDistance = 3;
 	Camera cam;
+	public static GameManager instance = null;
 
+
+
+	void Awake()
+	{
+		cam = Camera.main;
+		listShip = new List<Ship>();
+		float height = 2f * cam.orthographicSize;
+		float width = height * cam.aspect;
+		if (instance == null)
+		{
+			instance = this;
+		}
+		else if (instance != this)
+		{
+			Destroy(gameObject);
+		}
+		DontDestroyOnLoad(gameObject);
+		GameObject[] tempListShip = GameObject.FindGameObjectsWithTag("Ship"); // tableau temporaire
+		foreach (GameObject ship in tempListShip)
+		{
+			listShip.Add(ship.GetComponent<Ship>());
+		}
+		couloirs.createCorridors();
+		listShip[0].transform.position = new Vector3(cam.transform.position.x - width / 2+2, couloirs.couloirsList[couloirs.couloirsList.Count - 1].y, -1);
+		listShip[1].transform.position = new Vector3(cam.transform.position.x - width / 2+2, couloirs.couloirsList[0].y, -1);
+	}
 
 	// Use this for initialization
 	void Start () {
         uiManager = GameObjectUIManager.GetComponent<UiManager>();
-        listShip = new List<Ship>(); // initalisation de la liste
-        GameObject[] tempListShip = GameObject.FindGameObjectsWithTag("Ship"); // tableau temporaire
-        foreach(GameObject ship in tempListShip)
-        {
-            listShip.Add(ship.GetComponent<Ship>());
-        }
+         // initalisation de la liste
+       
 		timerObstaclesBegin = 0;
 		timerObstacles = Random.Range(1, timerObstaclesRange);
 		usedCouloirs = new List<int>();
@@ -52,23 +76,23 @@ public class GameManager : MonoBehaviour {
         }
 
 		if (Time.time > timerObstaclesBegin + timerObstacles) {
-			timerObstacles = Random.Range(1, timerObstaclesRange+1);
+			timerObstacles = Random.Range(1, timerObstaclesRange);
 			numberObstacle = Random.Range(1, couloirs.numberOfCorridor);
 			timerObstaclesBegin = Time.time;
 			usedCouloirs.Clear();
-			Debug.Log(numberObstacle);
 			for (int i = 0; i< numberObstacle; i++)
 			{
 				isObstacleSpawn = false;
 				while (!isObstacleSpawn) { 
 					 SpawnIn= Random.Range(0, couloirs.numberOfCorridor);
+					float distanceBetweenObstacles = Random.Range(0.5f, randomDistance);
 					if (usedCouloirs == null || !usedCouloirs.Contains(SpawnIn))
 					{
 						usedCouloirs.Add(SpawnIn);
 						GameObject obst = Instantiate(obstacle);
 						float height = 2f * cam.orthographicSize;
 						float width = height * cam.aspect;
-						obst.transform.position= new Vector3(cam.transform.position.x+ width / 2 + 2, couloirs.couloirsList[SpawnIn].y, couloirs.couloirsList[SpawnIn].z);
+						obst.transform.position= new Vector3(cam.transform.position.x+ width / 2 + distanceBetweenObstacles, couloirs.couloirsList[SpawnIn].y, couloirs.couloirsList[SpawnIn].z);
 						isObstacleSpawn = true;
 					}
 				}
@@ -77,6 +101,7 @@ public class GameManager : MonoBehaviour {
 
 
 	}
+<<<<<<< HEAD
 
     public float getCameraHeight()
     {
@@ -89,4 +114,7 @@ public class GameManager : MonoBehaviour {
         float width = getCameraHeight() * cam.aspect;
         return width;
     }
+=======
+	public void test() { }
+>>>>>>> b116edd3f604f32bcea053ea5e4a6623b201ed88
 }
