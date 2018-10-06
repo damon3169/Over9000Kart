@@ -148,8 +148,6 @@ public class GameManager : MonoBehaviour {
 				}
 			}
 		}
-
-
 	}
 
     public List<Ship> getListShip()
@@ -168,6 +166,4 @@ public class GameManager : MonoBehaviour {
         float width = getCameraHeight() * cam.aspect;
         return width;
     }
-
-	public void test() { }
 }

@@ -35,7 +35,7 @@ public class Obstacle : Star
         {
             Debug.Log("collision");
             collision.gameObject.GetComponent<Ship>().drawback();
-
+            
             transform.Translate(Vector2.left * Time.deltaTime * speed);
 
             if (transform.position.x + transform.localScale.x / 2 < GameManager.instance.cam.transform.position.x - GameManager.instance.getCameraWidth() / 2)
