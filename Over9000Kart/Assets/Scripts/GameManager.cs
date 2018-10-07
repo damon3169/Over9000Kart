@@ -189,8 +189,11 @@ public class GameManager : MonoBehaviour
 		if (timeSinceLastStarGenerated >= starGenerationCooldown)
 		{
 			timeSinceLastStarGenerated = 0.0f;
-			GameObject newStar = Instantiate(star);
-			newStar.transform.position = new Vector3(cam.transform.position.x + cam.orthographicSize * cam.aspect, random_height(), 0);
+            for (int i = 0; i < starSpeed; i++)
+            {
+			    GameObject newStar = Instantiate(star);
+			    newStar.transform.position = new Vector3(cam.transform.position.x + cam.orthographicSize * cam.aspect, random_height(), 0);
+            }
 		}
 
 		if (isStarting)
