@@ -9,8 +9,8 @@ public class GamepadButtons : MonoBehaviour {
     public GameObject exit;
 
     int buttonSelected;
-    int baseColorNum;
-    int selectedColorNum;
+    float baseColorNum;
+    float selectedColorNum;
     Color colorBase;
     Color colorSelected;
 
@@ -22,8 +22,8 @@ public class GamepadButtons : MonoBehaviour {
     // Use this for initialization
     void Start () {
         dPadPressed = false;
-        baseColorNum = 200;
-        selectedColorNum = 255;
+        baseColorNum = 0.5f;
+        selectedColorNum = 1;
         colorBase = new Color(baseColorNum, baseColorNum, baseColorNum);
         colorSelected = new Color(selectedColorNum, selectedColorNum, selectedColorNum);
         buttonSelected = 0;
@@ -35,14 +35,16 @@ public class GamepadButtons : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        /*if (buttonSelected == 0)
+        if (buttonSelected == 0)
         {
             sStart.color = colorSelected;
+            sExit.color = colorBase;
         }
-        else sStart.color = colorBase;
-
-        if (buttonSelected == 1) sExit.color = colorBase;
-        else sExit.color = colorSelected;*/
+        else
+        {
+            sStart.color = colorBase;
+            sExit.color = colorSelected;
+        }
 
         if (Input.GetButtonDown("Player1_ChangeCorridor_K") || (Input.GetAxis("Player1_ChangeCorridor_J") != 0 && !dPadPressed))
         {
@@ -50,7 +52,7 @@ public class GamepadButtons : MonoBehaviour {
             if (Input.GetAxis("Player1_ChangeCorridor_K") < 0 || Input.GetAxis("Player1_ChangeCorridor_J") < 0)
             {
                 if (buttonSelected < 1) buttonSelected++;
-                sStart.color = colorSelected;
+                //sStart.color = colorSelected;
             }
             if (Input.GetAxis("Player1_ChangeCorridor_K") > 0 || Input.GetAxis("Player1_ChangeCorridor_J") > 0)
             {
