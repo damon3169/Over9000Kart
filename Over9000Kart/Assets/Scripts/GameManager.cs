@@ -261,12 +261,14 @@ public class GameManager : MonoBehaviour
 					listShip[idFighter].setActualCorridor(CorridorVisee);
 					listShip[idDefenser].setActualCorridor(listShip[idDefenser].getActualCorridor());
 					listShip[idDefenser].drawback();
+					listShip[idDefenser].drawbackFight();
 				}
 				else
 				{
 					listShip[idFighter].setActualCorridor(listShip[idFighter].getActualCorridor());
 					listShip[idFighter].drawback();
 					listShip[idDefenser].setActualCorridor(listShip[idDefenser].getActualCorridor());
+					listShip[idFighter].drawbackFight();
 				}
 				listShip[idFighter].scoreFight = 0;
 				listShip[idDefenser].scoreFight = 0;
