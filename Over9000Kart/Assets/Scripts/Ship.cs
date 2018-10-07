@@ -63,7 +63,7 @@ public class Ship : MonoBehaviour
         Vector3 anim = new Vector3(spriteRenderer.transform.position.x + Random.Range(-range, range), spriteRenderer.transform.position.y + Random.Range(-range, range), spriteRenderer.transform.position.z);
         spriteRenderer.transform.position = anim;
         // animation vitesse
-        opacitéAnimation = speed;
+        opacitéAnimation = speed*2;
         animation.color = new Color(1, 1, 1, opacitéAnimation);
 
         if (!GameManager.instance.finished)
@@ -85,7 +85,7 @@ public class Ship : MonoBehaviour
 
                 // mouvement du vaisseau
                 if (speed > GameManager.instance.speedMin && transform.position.x > GameManager.instance.xMin) transform.Translate(Time.deltaTime * speed, 0, 0);
-                else speed = GameManager.instance.speedMin + 0.1f;
+                else speed = GameManager.instance.speedMin + 0.3f;
 
                 // déplacement de couloir
                 if (Input.GetButtonDown(controleurJoueur + "_ChangeCorridor_K") || (Input.GetAxis(controleurJoueur + "_ChangeCorridor_J") != 0 && !dPadPressed))

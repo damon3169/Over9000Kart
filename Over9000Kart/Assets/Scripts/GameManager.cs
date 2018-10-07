@@ -15,7 +15,6 @@ public class GameManager : MonoBehaviour
 	public float speedMax; // vitesse maximale à laquelle un vaisseau peut aller
 	public float frein; // frein naturel contre l'acceleration
 	public float acceleration; // modificateur d'acceleration d'un vaisseau
-	public float bufferSpeed; // buffer nécéssaire de mash de bouton avant de commencer à accelerer
 	public float drawbackObstacle; // distance de recul suite à une collision d'obstacle
 
 	List<Ship> listShip; // liste des vaisseaux dans une partie
@@ -79,8 +78,8 @@ public class GameManager : MonoBehaviour
     public AudioClip speeddown;
     public AudioClip collision;
     public AudioClip comet;
-
-
+    public int nbPaliers;
+    float[] paliersMusique;
 
 	public void debut_de_partie()
 	{
@@ -141,6 +140,11 @@ public class GameManager : MonoBehaviour
 
 	void Start()
 	{
+        paliersMusique = new float[nbPaliers];
+        for (int i = 0; i < nbPaliers; i++)
+        {
+            paliersMusique[i] = 8000 + ((1000 / nbPaliers) * i + 1);
+        }
         hasPlayedIntro = false;
 		xMin = -getCameraWidth() / 2 + getCameraWidth() / 10;
 		xMax = getCameraWidth() / 2 + cam.transform.position.x;
@@ -174,10 +178,10 @@ public class GameManager : MonoBehaviour
             //hasPlayedIntro = false;
         }
 
-        if (getHighestSpeed() < 8200) sourceMusique.pitch = 1f;
-        if (getHighestSpeed() > 8300) sourceMusique.pitch = 1.2f;
-        if (getHighestSpeed() > 8600) sourceMusique.pitch = 1.4f;
-        if (getHighestSpeed() > 8800) sourceMusique.pitch = 1.6f;
+        for(int i=0; i<nbPaliers;i++)
+        {
+            if (getHighestSpeed() > paliersMusique[i]) sourceMusique.pitch = 1+(0.1f*(i));
+        }
 
         timeSinceLastStarGenerated += Time.deltaTime;
 		if (timeSinceLastStarGenerated >= starGenerationCooldown)
