@@ -15,11 +15,11 @@ public class GameManager : MonoBehaviour {
     public float frein; // frein naturel contre l'acceleration
     public float acceleration; // modificateur d'acceleration d'un vaisseau
     public float bufferSpeed; // buffer nécéssaire de mash de bouton avant de commencer à accelerer
-    public float xMin; // position x minimale d'un vaisseau sur l'écran
-    public float xMax; // position x maximale d'un vaisseau sur l'écran : victoire
     public float drawbackObstacle; // distance de recul suite à une collision d'obstacle
 
     List<Ship> listShip; // liste des vaisseaux dans une partie
+
+    public float xMin; // position x minimale d'un vaisseau sur l'écran
 
     // ui
     public GameObject GameObjectUIManager;
@@ -117,7 +117,8 @@ public class GameManager : MonoBehaviour {
     }
 
     void Start () {
-
+        xMin = -getCameraWidth()/2+ getCameraWidth()/10;
+        Debug.Log(xMin);
         uiManager = GameObjectUIManager.GetComponent<UiManager>(); // on récupère l'uiManager
        
 		timerObstaclesBegin = 0;

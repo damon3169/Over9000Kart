@@ -51,7 +51,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1869331373585730}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.6, y: 1.34, z: -1}
+  m_LocalPosition: {x: -9.6, y: 1.34, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4550798861326406}
@@ -109,7 +109,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0
   idJoueur: 2
+  controleurJoueur: 
   score: 0
+  scoreFight: 0
+  fightingUp: 0
+  cooldownFightBegin: 0
+  cooldownFightDuration: 6
+  isFigtingInCooldown: 0
+  isThereAndCooldown: 0
 --- !u!212 &212362425326221026
 SpriteRenderer:
   m_ObjectHideFlags: 1
