@@ -153,7 +153,7 @@ public class GameManager : MonoBehaviour
         }
         hasPlayedIntro = false;
 		xMin = -getCameraWidth() / 2 + getCameraWidth() / 10;
-		xMax = getCameraWidth() / 2 + cam.transform.position.x;
+		xMax = getCameraWidth() / 2 - getCameraWidth() / 10;
 		uiManager = GameObjectUIManager.GetComponent<UiManager>(); // on récupère l'uiManager
 
 		timerObstaclesBegin = 0;
