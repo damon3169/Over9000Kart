@@ -18,7 +18,7 @@ public class Ship : MonoBehaviour
     public bool isFigtingInCooldown = false;
     public bool isThereAndCooldown = false;
 
-    float range;
+	float range;
 	private float totalDistance;
     bool dPadPressed;
 
@@ -102,7 +102,7 @@ public class Ship : MonoBehaviour
                 }
                 else if (Input.GetAxis(controleurJoueur + "_ChangeCorridor_J") == 0 && dPadPressed) dPadPressed = false;
 
-                // si le joueur mash les boutons pour accelerer et que sa vitesse n'est pas supérieure à la vitesse maximale ni inférieure à la vitesse minimale
+					// si le joueur mash les boutons pour accelerer et que sa vitesse n'est pas supérieure à la vitesse maximale ni inférieure à la vitesse minimale
                 if ((Input.GetButtonDown(controleurJoueur + "_SpeedUp_K") || Input.GetButtonDown(controleurJoueur + "_SpeedUp_J")) && speed < GameManager.instance.speedMax)
                 {
                     speed += GameManager.instance.acceleration; // on augmente la vitesse selon le niveau d'acceleration
