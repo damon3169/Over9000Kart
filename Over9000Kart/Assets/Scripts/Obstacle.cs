@@ -53,7 +53,7 @@ public class Obstacle : Star
     void Update()
     {
         // déplace l'obstacle de la droite vers la gauche
-        transform.Translate(Vector2.left * Time.deltaTime * speed);
+        transform.Translate(Vector2.left * Time.deltaTime * 10.0f);
         // rotate l'obstacle sur lui même d'une vitesse aléatoire de 2 à 15)
         spriteRenderer.transform.Rotate(Vector3.forward*Random.Range(2,16));
 
