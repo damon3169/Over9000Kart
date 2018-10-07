@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Ship : MonoBehaviour
 {
-
-	public float speed; // vitesse du vaisseau
+    SpriteRenderer spriteRenderer;
+    public float speed; // vitesse du vaisseau
 	public int idJoueur; // numéro du joueur controlant le vaisseau
 	public string controleurJoueur; // nom du bouton correspondant au numéro de joueur
 	private int actualCorridor; // couloir dans lequel le vaisseau se trouve
@@ -17,13 +17,14 @@ public class Ship : MonoBehaviour
     public float cooldownFightDuration = 6f;
     public bool isFigtingInCooldown = false;
     public bool isThereAndCooldown = false;
-
+    float range;
 
     bool dPadPressed;
 
 
 	// Use this for initialization
 	void Start () {
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>(); // on récupère le sprite dans le gameobject vide fils
         transform.position = new Vector3((GameManager.instance.getCameraWidth() / 10) - (GameManager.instance.getCameraWidth()/2), transform.position.y, transform.position.z);
         speed = 0f; ; // vitesse de base du vaisseau
 		corridor = GameManager.instance.couloirs;
@@ -43,6 +44,11 @@ public class Ship : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+        // animation vaisseau
+        range = (speed / 500) + 0.01f;
+        Vector3 anim = new Vector3(spriteRenderer.transform.position.x + Random.Range(-range, range), spriteRenderer.transform.position.y + Random.Range(-range, range), spriteRenderer.transform.position.z);
+        spriteRenderer.transform.position = anim;
+
         if (!GameManager.instance.finished)
         {
 			if (!GameManager.instance.isStarting)

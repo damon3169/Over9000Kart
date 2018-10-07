@@ -199,7 +199,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4054585628788682, guid: b8fade9af10b6164f8e9932a5530772d, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -9.71
+      value: -6.6
       objectReference: {fileID: 0}
     - target: {fileID: 4054585628788682, guid: b8fade9af10b6164f8e9932a5530772d, type: 2}
       propertyPath: m_LocalPosition.y
@@ -689,9 +689,8 @@ MonoBehaviour:
   frein: 0.01
   acceleration: 0.1
   bufferSpeed: -1
-  xMin: -10.5
-  xMax: 10.5
   drawbackObstacle: 1
+  xMin: -10.5
   GameObjectUIManager: {fileID: 1511060701}
   couloirs: {fileID: 707334165}
   timerObstaclesRange: 2
@@ -889,7 +888,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4054585628788682, guid: b8fade9af10b6164f8e9932a5530772d, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -10.47
+      value: -6.9
       objectReference: {fileID: 0}
     - target: {fileID: 4054585628788682, guid: b8fade9af10b6164f8e9932a5530772d, type: 2}
       propertyPath: m_LocalPosition.y

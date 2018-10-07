@@ -118,7 +118,6 @@ public class GameManager : MonoBehaviour {
 
     void Start () {
         xMin = -getCameraWidth()/2+ getCameraWidth()/10;
-        Debug.Log(xMin);
         uiManager = GameObjectUIManager.GetComponent<UiManager>(); // on récupère l'uiManager
        
 		timerObstaclesBegin = 0;
@@ -130,7 +129,7 @@ public class GameManager : MonoBehaviour {
         for (int i = 0; i < nbStars; i++) // génération des étoiles sur le background
         {
             GameObject newStar = Instantiate(star);
-            newStar.transform.position = new Vector3(random_width(), random_height(), -1);
+            newStar.transform.position = new Vector3(random_width(), random_height(), 0);
         }
         debut_de_partie();
     }
@@ -141,7 +140,7 @@ public class GameManager : MonoBehaviour {
         {
             timeSinceLastStarGenerated = 0.0f;
             GameObject newStar = Instantiate(star);
-            newStar.transform.position = new Vector3(cam.transform.position.x + cam.orthographicSize * cam.aspect, random_height(), -1);
+            newStar.transform.position = new Vector3(cam.transform.position.x + cam.orthographicSize * cam.aspect, random_height(), 0);
         }
 
 		if (isStarting)
