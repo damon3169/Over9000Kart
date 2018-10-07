@@ -9,6 +9,8 @@ public class Obstacle : Star
     public Sprite sprite2;
     public Sprite sprite3;
 
+    int direction;
+
     SpriteRenderer spriteRenderer;
 
     AudioSource source;
@@ -43,6 +45,8 @@ public class Obstacle : Star
                 break;
         }
 
+        direction = Random.Range(1, 3);
+
         source.pitch = Random.Range(0.5f, 3);
         source.PlayOneShot(GameManager.instance.comet,0.1f);
 
@@ -55,7 +59,8 @@ public class Obstacle : Star
         // déplace l'obstacle de la droite vers la gauche
         transform.Translate(Vector2.left * Time.deltaTime * 10.0f);
         // rotate l'obstacle sur lui même d'une vitesse aléatoire de 2 à 15)
-        spriteRenderer.transform.Rotate(Vector3.forward*Random.Range(2,16));
+        if(direction ==1) spriteRenderer.transform.Rotate(Vector3.forward*Random.Range(2,16));
+        else spriteRenderer.transform.Rotate(Vector3.back * Random.Range(2, 16));
 
         // si l'obstacle sort de l'écran
         if (transform.position.x + transform.localScale.x / 2 < GameManager.instance.cam.transform.position.x - GameManager.instance.getCameraWidth() / 2)

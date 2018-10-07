@@ -758,6 +758,8 @@ MonoBehaviour:
   star: {fileID: 1977519296756578, guid: a1f4c5f0b87b28241a88294c1e54bbe7, type: 2}
   background: {fileID: 2090504642}
   randomDistance: 3
+  starSpeed: 0
+  starSize: 0
   cam: {fileID: 1075751358}
   isInFight: 0
   timerFightBegin: 3
@@ -775,6 +777,7 @@ MonoBehaviour:
   collision: {fileID: 8300000, guid: 2fe170546b1babe44b3724947f4fceaa, type: 3}
   comet: {fileID: 8300000, guid: b7dbedeb50fb0274b9c53f2599a50bf9, type: 3}
   nbPaliers: 4
+  laser: {fileID: 1028658042278434, guid: e68cecbddbc14b24095e770889daa897, type: 2}
 --- !u!4 &579483826
 Transform:
   m_ObjectHideFlags: 0

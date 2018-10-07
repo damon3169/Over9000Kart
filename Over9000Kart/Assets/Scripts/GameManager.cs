@@ -83,6 +83,9 @@ public class GameManager : MonoBehaviour
     public int nbPaliers;
     float[] paliersMusique;
 
+    //laser
+    public GameObject laser;
+
 	public void debut_de_partie()
 	{
 		finished = false;
@@ -430,5 +433,14 @@ public class GameManager : MonoBehaviour
             if (ship.score> f) f = ship.score;
         }
         return f;
+    }
+
+    public Ship getOtherShip(int idJoueur)
+    {
+        foreach(Ship ship in listShip)
+        {
+            if (ship.idJoueur != idJoueur) return ship;
+        }
+        return null;
     }
 }
