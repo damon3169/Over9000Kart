@@ -30,9 +30,12 @@ public class Ship : MonoBehaviour
 
     AudioSource sourceShip;
 
+    GameObject laserOrigin;
 
 	// Use this for initialization
 	void Start () {
+        //laserOrigin=FindObjectInChildOfType
+
         animation = GetComponentInChildren<Animator>().gameObject.GetComponent<SpriteRenderer>();
         opacitéAnimation = 0;
         animation.color = new Color(1, 1, 1, opacitéAnimation);
@@ -212,9 +215,12 @@ public class Ship : MonoBehaviour
 
     public void fireLaser()
     {
-        Ship thrower=this;
         Ship target=GameManager.instance.getOtherShip(idJoueur);
         GameObject laser = Instantiate(GameManager.instance.laser, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
         laser.transform.parent = transform;
+
+        Vector3 direction = target.transform.position - transform.position;
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+        Quaternion lookAt = Quaternion.RotateTowards(transform.rotation, targetRotation, 10);
     }
 }
