@@ -21,6 +21,7 @@ public class Ship : MonoBehaviour
     public bool isFigtingInCooldown = false;
     public bool isThereAndCooldown = false;
 	public RectTransform chargeBar;
+	public SpriteRenderer laserIcon;
 
 	float range;
 	private float totalDistance;
@@ -34,6 +35,15 @@ public class Ship : MonoBehaviour
     public GameObject laserOrigin;
     bool isShootingLaser;
     float timerLaserBegin;
+
+	bool isCooldownShootLaser = false;
+
+	float cooldownLaserbegin;
+	float cooldownLaserDuration = 5;
+	float cooldownLaserPercentage;
+	public GameObject textLaser;
+	float adaptiveCooldownLaserDuration;
+
 
 	// Use this for initialization
 	void Start () {
@@ -77,6 +87,29 @@ public class Ship : MonoBehaviour
 			{
             if (!GameManager.instance.isInFight)
             {
+					if (idJoueur == 1)
+					{
+						adaptiveCooldownLaserDuration = cooldownLaserDuration - (cooldownLaserDuration * (((GameManager.instance.getListShip()[0].score - score) / 10) / 100));
+					}
+					else
+					{
+						adaptiveCooldownLaserDuration = cooldownLaserDuration - (cooldownLaserDuration * (((GameManager.instance.getListShip()[1].score - score) / 10) / 100));
+					}
+					if (isCooldownShootLaser)
+					{
+						if (Time.time > cooldownLaserbegin + adaptiveCooldownLaserDuration)
+						{
+							textLaser.GetComponent<TextMeshProUGUI>().text = "100";
+							laserIcon.color = Color.white;
+							isCooldownShootLaser = false;
+						}
+						else
+						{
+							cooldownLaserPercentage = (cooldownLaserbegin - Time.time)/ (adaptiveCooldownLaserDuration / 100);
+							textLaser.GetComponent<TextMeshProUGUI>().text = Mathf.RoundToInt(cooldownLaserPercentage).ToString();
+							laserIcon.color = Color.gray;
+						}
+					}
                     if(isShootingLaser)
                     {
                         // rotation de l'origine du laser selon la position du joueur adverse
@@ -174,8 +207,11 @@ public class Ship : MonoBehaviour
 
                 if ((Input.GetButtonDown(controleurJoueur + "_Laser")))
                 {
-                        fireLaser();
-                }
+						if (!isCooldownShootLaser)
+						{
+							fireLaser();
+						}
+					}
 
             }
 
@@ -254,7 +290,9 @@ public class Ship : MonoBehaviour
         if(isShootingLaser)
         {
             isShootingLaser = false;
-            laserOrigin.GetComponent<SpriteRenderer>().enabled = false;
+			cooldownLaserbegin = Time.time;
+			isCooldownShootLaser = true;
+			laserOrigin.GetComponent<SpriteRenderer>().enabled = false;
             foreach (Transform child in laserOrigin.transform)
             {
                 GameObject.Destroy(child.gameObject);
