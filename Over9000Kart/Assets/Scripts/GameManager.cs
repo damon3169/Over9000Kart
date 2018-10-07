@@ -392,9 +392,16 @@ public class GameManager : MonoBehaviour
                     listShip[idFighter].isThereAndCooldown = true;
                 }
             }
+			else  {
+				listShip[idFighter].isThereAndCooldown = false;
+			}
         }
+		else
+		{
+			listShip[idFighter].isThereAndCooldown = false;
+		}
 
-    }
+	}
 
     public float getHighestSpeed()
     {
