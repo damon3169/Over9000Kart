@@ -30,9 +30,12 @@ public class Ship : MonoBehaviour
 
     AudioSource sourceShip;
 
+    GameObject laserOrigin;
 
 	// Use this for initialization
 	void Start () {
+        //laserOrigin=FindObjectInChildOfType
+
         animation = GetComponentInChildren<Animator>().gameObject.GetComponent<SpriteRenderer>();
         opacitéAnimation = 0;
         animation.color = new Color(1, 1, 1, opacitéAnimation);
@@ -117,7 +120,7 @@ public class Ship : MonoBehaviour
                 }
                 else if (Input.GetAxis(controleurJoueur + "_ChangeCorridor_J") == 0 && dPadPressed) dPadPressed = false;
 
-					// si le joueur mash les boutons pour accelerer et que sa vitesse n'est pas supérieure à la vitesse maximale ni inférieure à la vitesse minimale
+				// si le joueur mash les boutons pour accelerer et que sa vitesse n'est pas supérieure à la vitesse maximale ni inférieure à la vitesse minimale
                 if ((Input.GetButtonDown(controleurJoueur + "_SpeedUp_K") || Input.GetButtonDown(controleurJoueur + "_SpeedUp_J")) && speed < GameManager.instance.speedMax)
                 {
                     speed += GameManager.instance.acceleration; // on augmente la vitesse selon le niveau d'acceleration
@@ -127,11 +130,38 @@ public class Ship : MonoBehaviour
                         transform.position = v;
                     }
                 }
-					float distanceSpeed = GameManager.instance.speedMax - GameManager.instance.speedMin;
-					float onePercentSpeed = distanceSpeed / 100;
-					float actualPercentageSpeed = speed / onePercentSpeed;
-					chargeBar.sizeDelta = new Vector2(actualPercentageSpeed,100);
-			}
+
+				float distanceSpeed = GameManager.instance.speedMax - GameManager.instance.speedMin;
+				float onePercentSpeed = distanceSpeed / 100;
+				float actualPercentageSpeed = speed / onePercentSpeed;
+				chargeBar.sizeDelta = new Vector2(actualPercentageSpeed,100);
+
+                if ((Input.GetButtonDown(controleurJoueur + "_SpeedUp_K") || Input.GetButtonDown(controleurJoueur + "_SpeedUp_J")) && speed < GameManager.instance.speedMax)
+                {
+                    speed += GameManager.instance.acceleration; // on augmente la vitesse selon le niveau d'acceleration
+                    if (transform.position.x <= GameManager.instance.xMin)
+                    {
+                        Vector3 v = new Vector3(GameManager.instance.xMin + 0.01f, transform.position.y, transform.position.z);
+                        transform.position = v;
+                    }
+                }
+
+                if ((Input.GetButtonDown(controleurJoueur + "_SpeedUp_K") || Input.GetButtonDown(controleurJoueur + "_SpeedUp_J")) && speed < GameManager.instance.speedMax)
+                {
+                    speed += GameManager.instance.acceleration; // on augmente la vitesse selon le niveau d'acceleration
+                    if (transform.position.x <= GameManager.instance.xMin)
+                    {
+                        Vector3 v = new Vector3(GameManager.instance.xMin + 0.01f, transform.position.y, transform.position.z);
+                        transform.position = v;
+                    }
+                }
+
+                if ((Input.GetButtonDown(controleurJoueur + "_Laser")))
+                {
+                        fireLaser();
+                }
+
+            }
 
             if (isFigtingInCooldown)
             {
@@ -181,4 +211,15 @@ public class Ship : MonoBehaviour
 	{
 		transform.position = new Vector3 (transform.position.x-1.5f, transform.position.y, transform.position.z); 
 	}
+
+    public void fireLaser()
+    {
+        Ship target=GameManager.instance.getOtherShip(idJoueur);
+        GameObject laser = Instantiate(GameManager.instance.laser, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+        laser.transform.parent = transform;
+
+        Vector3 direction = target.transform.position - transform.position;
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+        Quaternion lookAt = Quaternion.RotateTowards(transform.rotation, targetRotation, 10);
+    }
 }
