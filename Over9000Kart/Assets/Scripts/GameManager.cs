@@ -107,11 +107,25 @@ public class GameManager : MonoBehaviour
 			ship.transform.position = new Vector3((GameManager.instance.getCameraWidth() / 10) - (GameManager.instance.getCameraWidth() / 2), ship.transform.position.y, ship.transform.position.z);
 			ship.speed = 0f; ; // vitesse de base du vaisseau
 		}
-        
+
+        Star[] stars = FindObjectsOfType<Star>();
+        for (int i = 0; i < stars.Length; i++)
+        {
+            Destroy(stars[i]);
+        }
+
+        int nbStars = Random.Range(500, 2000); // nombre aléatoire d'étoiles à l'écran
+
+        for (int i = 0; i < nbStars; i++) // génération des étoiles sur le background
+        {
+            GameObject newStar = Instantiate(star);
+            newStar.transform.position = new Vector3(random_width(), random_height(), 0);
+        }
+
         starSize = 0.2f;
 
         timerStart = 5.0f;
-	}
+    }
 
 	void Awake()
 	{
@@ -158,14 +172,6 @@ public class GameManager : MonoBehaviour
 		timerObstaclesBegin = 0;
 		timerObstacles = Random.Range(1, timerObstaclesRange);
 		usedCouloirs = new List<int>(); // intialisation de la liste des couloirs
-
-        int nbStars = Random.Range(500, 5000); // nombre aléatoire d'étoiles à l'écran
-
-        for (int i = 0; i < nbStars; i++) // génération des étoiles sur le background
-        {
-            GameObject newStar = Instantiate(star);
-            newStar.transform.position = new Vector3(random_width(), random_height(), 0);
-        }
         debut_de_partie();
     }
 
@@ -186,7 +192,7 @@ public class GameManager : MonoBehaviour
         float pourcentageVictoire = (getHighestSpeed() - 8000.0f) / 1000.0f;
         //sourceMusique.pitch = 1 + pourcentageVictoire * 0.08f; // de 1 à 1.25
         starSpeed = 1 + pourcentageVictoire * 63.0f; // de 1 à 64
-        starSize = 0.2f + pourcentageVictoire * 4.8f; // de 0.2 à 5
+        starSize = 0.2f + pourcentageVictoire * 6.8f; // de 0.2 à 7
 
         timeSinceLastStarGenerated += Time.deltaTime;
 		if (timeSinceLastStarGenerated >= starGenerationCooldown)
@@ -213,6 +219,7 @@ public class GameManager : MonoBehaviour
 				timerStart = 0;
 				Compteur.GetComponent<TextMeshProUGUI>().text = "";
 				isStarting = false;
+                Compteur.GetComponent<TextMeshProUGUI>().fontSize /= 4;
 			}
 		}
 
@@ -252,92 +259,123 @@ public class GameManager : MonoBehaviour
 			}
 		}
 
-		if (isInFight)
-		{
-			if (Time.time > GameManager.instance.timerFightBegin + GameManager.instance.timerFightDuration)
-			{
-				GameObject.Destroy(activeSpark);
-				isInFight = false;
-				if (listShip[idFighter].scoreFight > listShip[idDefenser].scoreFight)
-				{
+        if (!finished)
+        {
+            if (Time.time > timerObstaclesBegin + timerObstacles && !finished && !isStarting)
+            {
+                timerObstacles = Random.Range(1, timerObstaclesRange);
+                numberObstacle = Random.Range(1, couloirs.numberOfCorridor);
+                timerObstaclesBegin = Time.time;
+                usedCouloirs.Clear();
+                for (int i = 0; i < numberObstacle; i++)
+                {
+                    isObstacleSpawn = false;
+                    while (!isObstacleSpawn)
+                    {
+                        SpawnIn = Random.Range(0, couloirs.numberOfCorridor);
+                        float distanceBetweenObstacles = Random.Range(0.5f, randomDistance);
+                        if (usedCouloirs == null || !usedCouloirs.Contains(SpawnIn))
+                        {
+                            usedCouloirs.Add(SpawnIn);
+                            GameObject obst = Instantiate(obstacle);
+                            float height = 2f * cam.orthographicSize;
+                            float width = height * cam.aspect;
+                            obst.transform.position = new Vector3(cam.transform.position.x + width / 2 + distanceBetweenObstacles, couloirs.couloirsList[SpawnIn].y, couloirs.couloirsList[SpawnIn].z);
+                            isObstacleSpawn = true;
+                        }
+                    }
+                }
+            }
 
-					listShip[idFighter].setActualCorridor(CorridorVisee);
-					listShip[idDefenser].setActualCorridor(listShip[idDefenser].getActualCorridor());
-					listShip[idDefenser].drawback();
-					listShip[idDefenser].drawbackFight();
-				}
-				else
-				{
-					listShip[idFighter].setActualCorridor(listShip[idFighter].getActualCorridor());
-					listShip[idFighter].drawback();
-					listShip[idDefenser].setActualCorridor(listShip[idDefenser].getActualCorridor());
-					listShip[idFighter].drawbackFight();
-				}
-				listShip[idFighter].scoreFight = 0;
-				listShip[idDefenser].scoreFight = 0;
-				Compteur.GetComponent<TextMeshProUGUI>().text = "";
+            if (isInFight)
+            {
+                if (Time.time > GameManager.instance.timerFightBegin + GameManager.instance.timerFightDuration)
+                {
+                    GameObject.Destroy(activeSpark);
+                    isInFight = false;
+                    if (listShip[idFighter].scoreFight > listShip[idDefenser].scoreFight)
+                    {
 
-			}
-			else
-			{
-				if (listShip[idFighter].fightingUp)
-				{
-					if (Input.GetButtonDown(listShip[idFighter].controleurJoueur + "_ChangeCorridor_K") || (Input.GetAxis(listShip[idFighter].controleurJoueur + "_ChangeCorridor_J") != 0 && !dPadPressedFighter))
-					{
-						dPadPressedFighter = true;
-						if (Input.GetAxis(listShip[idFighter].controleurJoueur + "_ChangeCorridor_K") > 0 || Input.GetAxis(listShip[idFighter].controleurJoueur + "_ChangeCorridor_J") > 0)
-						{
-							listShip[idFighter].scoreFight++;
-						}
-					}
-					else if (Input.GetAxis(listShip[idFighter].controleurJoueur + "_ChangeCorridor_J") == 0 && dPadPressedFighter) dPadPressedFighter = false;
+                        listShip[idFighter].setActualCorridor(CorridorVisee);
+                        listShip[idDefenser].setActualCorridor(listShip[idDefenser].getActualCorridor());
+                        listShip[idDefenser].drawback();
+                        listShip[idDefenser].drawbackFight();
+                    }
+                    else
+                    {
+                        listShip[idFighter].setActualCorridor(listShip[idFighter].getActualCorridor());
+                        listShip[idFighter].drawback();
+                        listShip[idDefenser].setActualCorridor(listShip[idDefenser].getActualCorridor());
+                        listShip[idFighter].drawbackFight();
+                    }
+                    listShip[idFighter].scoreFight = 0;
+                    listShip[idDefenser].scoreFight = 0;
+                    Compteur.GetComponent<TextMeshProUGUI>().text = "";
 
-					if (Input.GetButtonDown(listShip[idDefenser].controleurJoueur + "_ChangeCorridor_K") || (Input.GetAxis(listShip[idDefenser].controleurJoueur + "_ChangeCorridor_J") != 0 && !dPadPressedDefenser))
-					{
-						dPadPressedDefenser = true;
-						if (Input.GetAxis(listShip[idDefenser].controleurJoueur + "_ChangeCorridor_K") < 0 || Input.GetAxis(listShip[idDefenser].controleurJoueur + "_ChangeCorridor_J") < 0)
-						{
-							listShip[idDefenser].scoreFight++;
-						}
-					}
-					else if (Input.GetAxis(listShip[idDefenser].controleurJoueur + "_ChangeCorridor_J") == 0 && dPadPressedDefenser) dPadPressedDefenser = false;
+                }
+                else
+                {
+                    if (listShip[idFighter].fightingUp)
+                    {
+                        if (Input.GetButtonDown(listShip[idFighter].controleurJoueur + "_ChangeCorridor_K") || (Input.GetAxis(listShip[idFighter].controleurJoueur + "_ChangeCorridor_J") != 0 && !dPadPressedFighter))
+                        {
+                            dPadPressedFighter = true;
+                            if (Input.GetAxis(listShip[idFighter].controleurJoueur + "_ChangeCorridor_K") > 0 || Input.GetAxis(listShip[idFighter].controleurJoueur + "_ChangeCorridor_J") > 0)
+                            {
+                                listShip[idFighter].scoreFight++;
+                            }
+                        }
+                        else if (Input.GetAxis(listShip[idFighter].controleurJoueur + "_ChangeCorridor_J") == 0 && dPadPressedFighter) dPadPressedFighter = false;
 
-				}
+                        if (Input.GetButtonDown(listShip[idDefenser].controleurJoueur + "_ChangeCorridor_K") || (Input.GetAxis(listShip[idDefenser].controleurJoueur + "_ChangeCorridor_J") != 0 && !dPadPressedDefenser))
+                        {
+                            dPadPressedDefenser = true;
+                            if (Input.GetAxis(listShip[idDefenser].controleurJoueur + "_ChangeCorridor_K") < 0 || Input.GetAxis(listShip[idDefenser].controleurJoueur + "_ChangeCorridor_J") < 0)
+                            {
+                                listShip[idDefenser].scoreFight++;
+                            }
+                        }
+                        else if (Input.GetAxis(listShip[idDefenser].controleurJoueur + "_ChangeCorridor_J") == 0 && dPadPressedDefenser) dPadPressedDefenser = false;
 
-				else
-				{
-					if (Input.GetButtonDown(listShip[idFighter].controleurJoueur + "_ChangeCorridor_K") || (Input.GetAxis(listShip[idFighter].controleurJoueur + "_ChangeCorridor_J") != 0 && !dPadPressedFighter))
-					{
-						dPadPressedFighter = true;
-						if (Input.GetAxis(listShip[idFighter].controleurJoueur + "_ChangeCorridor_K") < 0 || Input.GetAxis(listShip[idFighter].controleurJoueur + "_ChangeCorridor_J") < 0)
-						{
-							listShip[idFighter].scoreFight++;
-						}
-					}
-					else if (Input.GetAxis(listShip[idFighter].controleurJoueur + "_ChangeCorridor_J") == 0 && dPadPressedFighter) dPadPressedFighter = false;
-					if (Input.GetButtonDown(listShip[idDefenser].controleurJoueur + "_ChangeCorridor_K") || (Input.GetAxis(listShip[idDefenser].controleurJoueur + "_ChangeCorridor_J") != 0 && !dPadPressedDefenser))
-					{
-						dPadPressedDefenser = true;
-						if (Input.GetAxis(listShip[idDefenser].controleurJoueur + "_ChangeCorridor_K") > 0 || Input.GetAxis(listShip[idDefenser].controleurJoueur + "_ChangeCorridor_J") > 0)
-						{
-							listShip[idDefenser].scoreFight++;
-						}
-					}
-					else if (Input.GetAxis(listShip[idDefenser].controleurJoueur + "_ChangeCorridor_J") == 0 && dPadPressedDefenser) dPadPressedDefenser = false;
+                    }
 
-				}
-				Compteur.GetComponent<TextMeshProUGUI>().text = "J"+ listShip[idDefenser].idJoueur + " "+ listShip[idDefenser].scoreFight + "  /  " + "J" + listShip[idFighter].idJoueur + " "+ listShip[idFighter].scoreFight;
-			}
+                    else
+                    {
+                        if (Input.GetButtonDown(listShip[idFighter].controleurJoueur + "_ChangeCorridor_K") || (Input.GetAxis(listShip[idFighter].controleurJoueur + "_ChangeCorridor_J") != 0 && !dPadPressedFighter))
+                        {
+                            dPadPressedFighter = true;
+                            if (Input.GetAxis(listShip[idFighter].controleurJoueur + "_ChangeCorridor_K") < 0 || Input.GetAxis(listShip[idFighter].controleurJoueur + "_ChangeCorridor_J") < 0)
+                            {
+                                listShip[idFighter].scoreFight++;
+                            }
+                        }
+                        else if (Input.GetAxis(listShip[idFighter].controleurJoueur + "_ChangeCorridor_J") == 0 && dPadPressedFighter) dPadPressedFighter = false;
+                        if (Input.GetButtonDown(listShip[idDefenser].controleurJoueur + "_ChangeCorridor_K") || (Input.GetAxis(listShip[idDefenser].controleurJoueur + "_ChangeCorridor_J") != 0 && !dPadPressedDefenser))
+                        {
+                            dPadPressedDefenser = true;
+                            if (Input.GetAxis(listShip[idDefenser].controleurJoueur + "_ChangeCorridor_K") > 0 || Input.GetAxis(listShip[idDefenser].controleurJoueur + "_ChangeCorridor_J") > 0)
+                            {
+                                listShip[idDefenser].scoreFight++;
+                            }
+                        }
+                        else if (Input.GetAxis(listShip[idDefenser].controleurJoueur + "_ChangeCorridor_J") == 0 && dPadPressedDefenser) dPadPressedDefenser = false;
 
-		}
+                    }
+                    Compteur.GetComponent<TextMeshProUGUI>().text = "J" + listShip[idDefenser].idJoueur + " " + listShip[idDefenser].scoreFight + "  /  " + "J" + listShip[idFighter].idJoueur + " " + listShip[idFighter].scoreFight;
+                }
 
-		foreach (Ship ship in listShip)
-		{
-			if (ship.score > 9000)
-			{
-				finished = true;
-			}
-		}
+            }
+
+            foreach (Ship ship in listShip)
+            {
+                if (ship.score > 9000)
+                {
+                    finished = true;
+                    Compteur.GetComponent<TextMeshProUGUI>().text = "Start : play again\nSelect : Back to menu";
+                    break;
+                }
+            }
+        }
 	}
 
 	// permet d'obtenir la liste des ship
