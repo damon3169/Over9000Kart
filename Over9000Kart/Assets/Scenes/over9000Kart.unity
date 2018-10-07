@@ -2006,7 +2006,7 @@ Prefab:
         type: 2}
       propertyPath: laserIcon
       value: 
-      objectReference: {fileID: 799877911}
+      objectReference: {fileID: 1706976672}
     - target: {fileID: 114690439236281274, guid: b8fade9af10b6164f8e9932a5530772d,
         type: 2}
       propertyPath: textLaser
@@ -2494,7 +2494,7 @@ MonoBehaviour:
   isFigtingInCooldown: 0
   isThereAndCooldown: 0
   chargeBar: {fileID: 625145147}
-  laserIcon: {fileID: 1706976672}
+  laserIcon: {fileID: 799877911}
   laserOrigin: {fileID: 200185291}
   textLaser: {fileID: 1344733591}
 --- !u!4 &1363526166
