@@ -179,7 +179,13 @@ public class GameManager : MonoBehaviour
 
 	void Update()
 	{
-        if (!sourceMusique.isPlaying && !hasPlayedIntro && !isStarting)
+		if (Input.GetButtonDown("Menu"))
+		{
+			SceneManager.LoadScene("Menu");
+			GameObject.Destroy(gameObject);
+		}
+
+		if (!sourceMusique.isPlaying && !hasPlayedIntro && !isStarting)
         {
             sourceMusique.PlayOneShot(intro, volumeMusique);
             hasPlayedIntro = true;
@@ -227,11 +233,7 @@ public class GameManager : MonoBehaviour
 		if (finished)
 		{
 			Compteur.GetComponent<TextMeshProUGUI>().text = "Restart: R / Menu: ESCAPE";
-			if (Input.GetButtonDown("Menu"))
-			{
-				SceneManager.LoadScene("Menu");
-				GameObject.Destroy(gameObject);
-			}
+			
 		}
 
 		if (Time.time > timerObstaclesBegin + timerObstacles && !finished && !isStarting)
