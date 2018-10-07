@@ -233,7 +233,7 @@ public class Ship : MonoBehaviour
         if(!isShootingLaser)
         {
             Ship target=GameManager.instance.getOtherShip(idJoueur);
-            GameObject laser = Instantiate(GameManager.instance.laser, new Vector3(laserOrigin.transform.position.x, laserOrigin.transform.position.y, laserOrigin.transform.position.z),Quaternion.identity);
+            GameObject laser = Instantiate(GameManager.instance.laser, new Vector3(laserOrigin.transform.position.x, laserOrigin.transform.position.y, 1),Quaternion.identity);
             laser.transform.parent = laserOrigin.transform;
             isShootingLaser = true;
         }
