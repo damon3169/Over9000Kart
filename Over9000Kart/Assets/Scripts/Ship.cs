@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class Ship : MonoBehaviour
 {
@@ -17,8 +19,9 @@ public class Ship : MonoBehaviour
     public float cooldownFightDuration = 6f;
     public bool isFigtingInCooldown = false;
     public bool isThereAndCooldown = false;
+	public RectTransform chargeBar;
 
-    float range;
+	float range;
 	private float totalDistance;
     bool dPadPressed;
 
@@ -113,7 +116,7 @@ public class Ship : MonoBehaviour
                 }
                 else if (Input.GetAxis(controleurJoueur + "_ChangeCorridor_J") == 0 && dPadPressed) dPadPressed = false;
 
-                // si le joueur mash les boutons pour accelerer et que sa vitesse n'est pas supérieure à la vitesse maximale ni inférieure à la vitesse minimale
+					// si le joueur mash les boutons pour accelerer et que sa vitesse n'est pas supérieure à la vitesse maximale ni inférieure à la vitesse minimale
                 if ((Input.GetButtonDown(controleurJoueur + "_SpeedUp_K") || Input.GetButtonDown(controleurJoueur + "_SpeedUp_J")) && speed < GameManager.instance.speedMax)
                 {
                     speed += GameManager.instance.acceleration; // on augmente la vitesse selon le niveau d'acceleration
@@ -123,7 +126,11 @@ public class Ship : MonoBehaviour
                         transform.position = v;
                     }
                 }
-            }
+					float distanceSpeed = GameManager.instance.speedMax - GameManager.instance.speedMin;
+					float onePercentSpeed = distanceSpeed / 100;
+					float actualPercentageSpeed = speed / onePercentSpeed;
+					chargeBar.sizeDelta = new Vector2(actualPercentageSpeed,100);
+			}
 
             if (isFigtingInCooldown)
             {

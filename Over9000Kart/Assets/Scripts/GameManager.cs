@@ -59,6 +59,8 @@ public class GameManager : MonoBehaviour {
 	public bool isStarting= true;
 	private float timerStart = 5;
 	public GameObject Compteur;
+	public GameObject spark;
+	private GameObject activeSpark;
 
     // musique
     public AudioClip menu;
@@ -227,8 +229,9 @@ public class GameManager : MonoBehaviour {
         {
             if (Time.time > GameManager.instance.timerFightBegin + GameManager.instance.timerFightDuration)
             {
-                isInFight = false;
-                if (listShip[idFighter].scoreFight > listShip[idDefenser].scoreFight)
+				GameObject.Destroy(activeSpark);
+				isInFight = false;
+				if (listShip[idFighter].scoreFight > listShip[idDefenser].scoreFight)
                 {
 
                     listShip[idFighter].setActualCorridor(CorridorVisee);
@@ -327,14 +330,18 @@ public class GameManager : MonoBehaviour {
                         listShip[idDefenser].transform.position = new Vector3(listShip[idDefenser].transform.position.x, couloirs.couloirsList[CorridorVisee].y - listShip[idFighter].transform.localScale.x / 2, listShip[idDefenser].transform.position.z);
                         listShip[idFighter].transform.position = new Vector3(listShip[idFighter].transform.position.x, couloirs.couloirsList[CorridorVisee].y + listShip[idFighter].transform.localScale.x / 2, listShip[idFighter].transform.position.z);
 
-                        listShip[idFighter].fightingUp = false;
+						activeSpark = Instantiate(spark);
+						activeSpark.transform.position = new Vector3(listShip[idFighter].transform.position.x, listShip[idFighter].transform.position.y - transform.localScale.y / 2, listShip[idFighter].transform.position.z);
+						listShip[idFighter].fightingUp = false;
                         listShip[idDefenser].fightingUp = true;
                     }
                     else
                     {
                         listShip[idDefenser].transform.position = new Vector3(listShip[idDefenser].transform.position.x, couloirs.couloirsList[CorridorVisee].y + listShip[idFighter].transform.localScale.x / 2, listShip[idDefenser].transform.position.z);
                         listShip[idFighter].transform.position = new Vector3(listShip[idFighter].transform.position.x, couloirs.couloirsList[CorridorVisee].y - listShip[idFighter].transform.localScale.x / 2, listShip[idFighter].transform.position.z);
-                        listShip[idFighter].fightingUp = true;
+						activeSpark = Instantiate(spark);
+						activeSpark.transform.position = new Vector3(listShip[idFighter].transform.position.x, listShip[idFighter].transform.position.y + transform.localScale.y / 2, listShip[idFighter].transform.position.z);
+						listShip[idFighter].fightingUp = true;
                         listShip[idDefenser].fightingUp = false;
 
                     }

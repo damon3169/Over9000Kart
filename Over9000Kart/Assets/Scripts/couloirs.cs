@@ -19,7 +19,7 @@ public class couloirs : MonoBehaviour {
 		cam = Camera.main;
 		float height = 2f * cam.orthographicSize;
 		float width = height * cam.aspect;
-		lengthCorridor = 2f * cam.orthographicSize / numberOfCorridor;
+		lengthCorridor = (2f * cam.orthographicSize-1) / numberOfCorridor;
 		distanceCorridor = (cam.transform.position.y - 2f * cam.orthographicSize / 2) + lengthCorridor / 2;
 		firstCorridorDistance = distanceCorridor;
 
