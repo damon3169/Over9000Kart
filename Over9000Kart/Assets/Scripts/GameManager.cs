@@ -85,6 +85,7 @@ public class GameManager : MonoBehaviour
 
     //laser
     public GameObject laser;
+    public float timerLaserDuration;
 
 	public void debut_de_partie()
 	{

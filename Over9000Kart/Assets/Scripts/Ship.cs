@@ -33,6 +33,7 @@ public class Ship : MonoBehaviour
 
     public GameObject laserOrigin;
     bool isShootingLaser;
+    float timerLaserBegin;
 
 	// Use this for initialization
 	void Start () {
@@ -63,7 +64,7 @@ public class Ship : MonoBehaviour
 	{
 
         // animation vaisseau
-        range = (speed / 500) + 0.01f;
+        range = 0.005f;
         Vector3 anim = new Vector3(spriteRenderer.transform.position.x + Random.Range(-range, range), spriteRenderer.transform.position.y + Random.Range(-range, range), spriteRenderer.transform.position.z);
         spriteRenderer.transform.position = anim;
         // animation vitesse
@@ -83,6 +84,11 @@ public class Ship : MonoBehaviour
                         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
                         Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
                         laserOrigin.GetComponentInChildren<SpriteRenderer>().transform.rotation = Quaternion.Slerp(laserOrigin.GetComponentInChildren<SpriteRenderer>().transform.rotation, rotation, 10);
+                        GameManager.instance.getOtherShip(idJoueur).drawback();
+                        if (Time.time > timerLaserBegin + GameManager.instance.timerLaserDuration)
+                        {
+                            stopLaser();
+                        }
                     }
 
                     totalDistance = GameManager.instance.xMax - GameManager.instance.xMin;
@@ -232,11 +238,28 @@ public class Ship : MonoBehaviour
     {
         if(!isShootingLaser)
         {
+            timerLaserBegin = Time.time;
             Ship target=GameManager.instance.getOtherShip(idJoueur);
+            
             GameObject laser = Instantiate(GameManager.instance.laser, new Vector3(laserOrigin.transform.position.x, laserOrigin.transform.position.y, 1),Quaternion.identity);
             laser.transform.parent = laserOrigin.transform;
+            laserOrigin.GetComponent<SpriteRenderer>().enabled = true;
             isShootingLaser = true;
         }
         
+    }
+
+    public void stopLaser()
+    {
+        if(isShootingLaser)
+        {
+            isShootingLaser = false;
+            laserOrigin.GetComponent<SpriteRenderer>().enabled = false;
+            foreach (Transform child in laserOrigin.transform)
+            {
+                GameObject.Destroy(child.gameObject);
+            }
+            laserOrigin.transform.rotation = new Quaternion(0,0,0,0);
+        }
     }
 }
