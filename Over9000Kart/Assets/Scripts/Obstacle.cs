@@ -11,18 +11,23 @@ public class Obstacle : Star
 
     SpriteRenderer spriteRenderer;
 
+    AudioSource source;
+
     // lorsque l'obstacle entre en collision avec quelque chose
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Ship") // si c'est un vaisseau
         {
             collision.gameObject.GetComponent<Ship>().drawback(); // on fait reculer le vaisseau touché
-            Destroy(this.gameObject); // on détruit l'obstacle
+            //source.pitch = Random.Range(0, 5);
+            source.PlayOneShot(GameManager.instance.collision, 0.01f);
+            Destroy(this.gameObject); // on détruit l'obstacle 
         }
     }
 
     void Start()
     {
+        source = GetComponent<AudioSource>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>(); // on récupère le sprite dans le gameobject vide fils
         int r = Random.Range(1, 4); // on génère un nombre entre 1 et 3
         switch(r) // selon le nombre obtenu on applique le sprite 1 2 ou 3 à l'obstacle
@@ -37,7 +42,10 @@ public class Obstacle : Star
                 spriteRenderer.sprite = sprite3;
                 break;
         }
-        
+
+        source.pitch = Random.Range(0.5f, 3);
+        source.PlayOneShot(GameManager.instance.comet,0.1f);
+
         // génère une rotation aléatoire à la création de l'obstacle
         spriteRenderer.transform.Rotate(Vector3.forward*Random.Range(0,360));
     }

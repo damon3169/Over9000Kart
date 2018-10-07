@@ -60,11 +60,28 @@ public class GameManager : MonoBehaviour {
 	private float timerStart = 5;
 	public GameObject Compteur;
 
+    // musique
+    public AudioClip menu;
+    public AudioClip decompte;
+    public AudioClip intro;
+    public AudioClip refrain;
+    private AudioSource sourceMusique;
+    public float volumeMusique;
+    bool hasPlayedIntro;
+    bool isPlayingBoucle;
 
-	public void debut_de_partie()
+    // sons
+    public AudioClip speedup;
+    public AudioClip speeddown;
+    public AudioClip collision;
+    public AudioClip comet;
+
+    public void debut_de_partie()
     {
         finished = false;
 		isStarting = true;
+        hasPlayedIntro = false;
+        isPlayingBoucle = false;
 
 
 		float height = 2f * cam.orthographicSize;
@@ -84,6 +101,7 @@ public class GameManager : MonoBehaviour {
 
     void Awake()
 	{
+        sourceMusique = GetComponent<AudioSource>();
 		cam = Camera.main; // assigne la main camera
 		if (instance == null)
 		{
@@ -136,6 +154,22 @@ public class GameManager : MonoBehaviour {
     }
 
 	void Update () {
+        if (!hasPlayedIntro && !isStarting && !sourceMusique.isPlaying)
+        {
+            sourceMusique.PlayOneShot(intro, volumeMusique);
+            hasPlayedIntro = true;
+        }
+        if(hasPlayedIntro && !sourceMusique.isPlaying)
+        {
+            sourceMusique.PlayOneShot(refrain, volumeMusique);
+            hasPlayedIntro = false;
+        }
+
+        if (getHighestSpeed() < 8200) sourceMusique.pitch = 1f;
+        if (getHighestSpeed() > 8300) sourceMusique.pitch = 1.2f;
+        if (getHighestSpeed() > 8600) sourceMusique.pitch = 1.4f;
+        if (getHighestSpeed() > 8800) sourceMusique.pitch = 1.6f;
+
         timeSinceLastStarGenerated += Time.deltaTime;
         if (timeSinceLastStarGenerated >= starGenerationCooldown)
         {
@@ -148,7 +182,12 @@ public class GameManager : MonoBehaviour {
 		{
 			timerStart -= Time.deltaTime;
 			Compteur.GetComponent<TextMeshProUGUI>().text = Mathf.RoundToInt(timerStart).ToString();
-			if (timerStart < 0)
+            if (timerStart < 4 && !hasPlayedIntro)
+            {
+                sourceMusique.PlayOneShot(decompte, 1);
+                hasPlayedIntro = true;
+            }
+            if (timerStart < 0)
 			{
 				timerStart = 0;
 				Compteur.GetComponent<TextMeshProUGUI>().text = "";
@@ -312,5 +351,15 @@ public class GameManager : MonoBehaviour {
             }
         }
 
+    }
+
+    public float getHighestSpeed()
+    {
+        float f = 0;
+        foreach(Ship ship in listShip)
+        {
+            if (ship.score> f) f = ship.score;
+        }
+        return f;
     }
 }
