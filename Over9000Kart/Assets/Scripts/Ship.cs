@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -143,10 +144,16 @@ public class Ship : MonoBehaviour
             }
 			}
 		} else {
-            this.transform.Translate(Vector3.left * Time.deltaTime * transform.position.x);
+            if (score >= 9000)
+            {
+                this.transform.Translate(Vector3.left * Time.deltaTime * transform.position.x);
+            } else if (transform.position.x > -GameManager.instance.getCameraWidth()) {
+                this.transform.Translate(Vector3.left * Time.deltaTime * -transform.position.x);
+            }
             if (GameManager.instance.finished && Input.GetButtonDown(controleurJoueur + "_Reset"))
             {
                 GameManager.instance.debut_de_partie();
+                GameManager.instance.Compteur.GetComponent<TextMeshProUGUI>().fontSize *= 4;
             }
         }
 	}
