@@ -227,7 +227,7 @@ public class GameManager : MonoBehaviour
 		if (finished)
 		{
 			Compteur.GetComponent<TextMeshProUGUI>().text = "Restart: R / Menu: ESCAPE";
-			if (Input.GetKeyDown("escape"))
+			if (Input.GetButtonDown("Menu"))
 			{
 				SceneManager.LoadScene("Menu");
 				GameObject.Destroy(gameObject);

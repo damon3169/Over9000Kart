@@ -38,7 +38,7 @@ public class BackgroundMenu : MonoBehaviour {
         for (int i = 0; i < nbStars; i++) // génération des étoiles sur le background
         {
             GameObject newStar = Instantiate(star);
-            newStar.transform.position = new Vector3(random_width(), random_height(), 0);
+            newStar.transform.position = new Vector3(random_width(), random_height(), 70);
         }
 
         starSize = 0.2f;
