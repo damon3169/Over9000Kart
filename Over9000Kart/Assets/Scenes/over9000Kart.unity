@@ -212,9 +212,19 @@ Prefab:
       propertyPath: m_TagString
       value: LaserOrigin
       objectReference: {fileID: 0}
+    - target: {fileID: 114690439236281274, guid: b8fade9af10b6164f8e9932a5530772d,
+        type: 2}
+      propertyPath: laserOrigin
+      value: 
+      objectReference: {fileID: 200185291}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8fade9af10b6164f8e9932a5530772d, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &200185291 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1580562611345356, guid: b8fade9af10b6164f8e9932a5530772d,
+    type: 2}
+  m_PrefabInternal: {fileID: 168027175}
 --- !u!1 &229383956
 GameObject:
   m_ObjectHideFlags: 0
@@ -1238,6 +1248,11 @@ Prefab:
       propertyPath: idJoueur
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114690439236281274, guid: b8fade9af10b6164f8e9932a5530772d,
+        type: 2}
+      propertyPath: laserOrigin
+      value: 
+      objectReference: {fileID: 950880549}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8fade9af10b6164f8e9932a5530772d, type: 2}
   m_IsPrefabAsset: 0
@@ -1433,6 +1448,11 @@ RectTransform:
   m_AnchoredPosition: {x: -53, y: -53}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &950880549 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1580562611345356, guid: b8fade9af10b6164f8e9932a5530772d,
+    type: 2}
+  m_PrefabInternal: {fileID: 870466991}
 --- !u!1 &1038059418
 GameObject:
   m_ObjectHideFlags: 0

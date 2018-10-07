@@ -30,11 +30,10 @@ public class Ship : MonoBehaviour
 
     AudioSource sourceShip;
 
-    GameObject laserOrigin;
+    public GameObject laserOrigin;
 
 	// Use this for initialization
 	void Start () {
-        //laserOrigin=FindObjectInChildOfType
 
         animation = GetComponentInChildren<Animator>().gameObject.GetComponent<SpriteRenderer>();
         opacitéAnimation = 0;
@@ -75,7 +74,13 @@ public class Ship : MonoBehaviour
 			{
             if (!GameManager.instance.isInFight)
             {
-					totalDistance = GameManager.instance.xMax - GameManager.instance.xMin;
+                    // rotation de l'origine du laser selon la position du joueur adverse
+                    Vector2 direction = GameManager.instance.getOtherShip(idJoueur).transform.position - transform.position;
+                    float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                    Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                    laserOrigin.transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 10);
+
+                    totalDistance = GameManager.instance.xMax - GameManager.instance.xMin;
 					totalDistance = totalDistance / 100;
 					float distanceFromStart =	transform.position.x - GameManager.instance.xMin ;
 					distanceFromStart = distanceFromStart / totalDistance;
@@ -216,11 +221,7 @@ public class Ship : MonoBehaviour
     public void fireLaser()
     {
         Ship target=GameManager.instance.getOtherShip(idJoueur);
-        GameObject laser = Instantiate(GameManager.instance.laser, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
-        laser.transform.parent = transform;
-
-        Vector3 direction = target.transform.position - transform.position;
-        Quaternion targetRotation = Quaternion.LookRotation(direction);
-        Quaternion lookAt = Quaternion.RotateTowards(transform.rotation, targetRotation, 10);
+        GameObject laser = Instantiate(GameManager.instance.laser, new Vector3(laserOrigin.transform.position.x, laserOrigin.transform.position.y, laserOrigin.transform.position.z),Quaternion.identity);
+        laser.transform.parent = laserOrigin.transform;
     }
 }
