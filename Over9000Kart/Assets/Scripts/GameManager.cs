@@ -42,9 +42,11 @@ public class GameManager : MonoBehaviour
 	// stars et background
 	public GameObject star;
 	float timeSinceLastStarGenerated = 0.0f;
-	const float starGenerationCooldown = 0.01f;
+	float starGenerationCooldown = 0.01f;
 	public GameObject background;
 	public float randomDistance = 3;
+    public float starSpeed;
+    public float starSize;
 
 	// main camera
 	public Camera cam;
@@ -102,6 +104,10 @@ public class GameManager : MonoBehaviour
 			ship.transform.position = new Vector3((GameManager.instance.getCameraWidth() / 10) - (GameManager.instance.getCameraWidth() / 2), ship.transform.position.y, ship.transform.position.z);
 			ship.speed = 0f; ; // vitesse de base du vaisseau
 		}
+        
+        starSize = 0.2f;
+
+        timerStart = 5.0f;
 	}
 
 	void Awake()
@@ -174,10 +180,10 @@ public class GameManager : MonoBehaviour
             //hasPlayedIntro = false;
         }
 
-        if (getHighestSpeed() < 8200) sourceMusique.pitch = 1f;
-        if (getHighestSpeed() > 8300) sourceMusique.pitch = 1.2f;
-        if (getHighestSpeed() > 8600) sourceMusique.pitch = 1.4f;
-        if (getHighestSpeed() > 8800) sourceMusique.pitch = 1.6f;
+        if (getHighestSpeed() < 8200) { sourceMusique.pitch = 1f; starSpeed = 0.5f; starSize = 0.2f; }
+        if (getHighestSpeed() > 8300) { sourceMusique.pitch = 1.2f; starSpeed = 1.0f; starSize = 0.4f; }
+        if (getHighestSpeed() > 8600) { sourceMusique.pitch = 1.4f; starSpeed = 2.0f; starSize = 0.8f; }
+        if (getHighestSpeed() > 8800) { sourceMusique.pitch = 1.6f; starSpeed = 4.0f; starSize = 1.6f; }
 
         timeSinceLastStarGenerated += Time.deltaTime;
 		if (timeSinceLastStarGenerated >= starGenerationCooldown)
