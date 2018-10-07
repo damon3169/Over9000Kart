@@ -77,10 +77,11 @@ public class Ship : MonoBehaviour
 					float distanceFromStart =	transform.position.x - GameManager.instance.xMin ;
 					distanceFromStart = distanceFromStart / totalDistance;
 					score = 8000 + distanceFromStart * 10;
-					//score = transform.position.x * 100 + 8000 - GameManager.instance.getCameraWidth(); // calcul du score selon la position en x du vaisseau
+                    //score = transform.position.x * 100 + 8000 - GameManager.instance.getCameraWidth(); // calcul du score selon la position en x du vaisseau
 
-                // freine le vaisseau en continu tant qu'on est au dessus de la vitesse minimum
-                if (speed > GameManager.instance.speedMin) speed -= GameManager.instance.frein;
+                    // freine le vaisseau en continu tant qu'on est au dessus de la vitesse minimum
+                    if (speed > GameManager.instance.speedMin) speed -= GameManager.instance.frein;
+                    else speed += Time.deltaTime * -speed;
 
                 // mouvement du vaisseau
                 if (speed > GameManager.instance.speedMin && transform.position.x > GameManager.instance.xMin) transform.Translate(Time.deltaTime * speed, 0, 0);
@@ -164,31 +165,14 @@ public class Ship : MonoBehaviour
 
     public void drawback()
     {
-        if (transform.position.x - GameManager.instance.drawbackObstacle > GameManager.instance.xMin) transform.Translate(-GameManager.instance.drawbackObstacle, 0, 0);
-        else
-        {
-            Vector3 v = new Vector3(GameManager.instance.xMin, transform.position.y, transform.position.z);
-            transform.position = v;
-        }
+        speed = -1;
         if (GameManager.instance.isInFight)
         {
             if (idJoueur == 1)
             {
-                Ship otherShip = GameManager.instance.getListShip()[0];
-                if (otherShip.transform.position.x - GameManager.instance.drawbackObstacle > GameManager.instance.xMin) otherShip.transform.Translate(-GameManager.instance.drawbackObstacle, 0, 0);
-                else
-                {
-                    Vector3 v = new Vector3(GameManager.instance.xMin, otherShip.transform.position.y, otherShip.transform.position.z);
-                    otherShip.transform.position = v;
-                }
+                GameManager.instance.getListShip()[0].speed = -1;
             } else {
-                Ship otherShip = GameManager.instance.getListShip()[1];
-                if (otherShip.transform.position.x - GameManager.instance.drawbackObstacle > GameManager.instance.xMin) otherShip.transform.Translate(-GameManager.instance.drawbackObstacle, 0, 0);
-                else
-                {
-                    Vector3 v = new Vector3(GameManager.instance.xMin, otherShip.transform.position.y, otherShip.transform.position.z);
-                    otherShip.transform.position = v;
-                }
+                GameManager.instance.getListShip()[1].speed = -1;
             }
         }
     }
