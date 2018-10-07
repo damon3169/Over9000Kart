@@ -32,10 +32,11 @@ public class Ship : MonoBehaviour
     AudioSource sourceShip;
 
     public GameObject laserOrigin;
+    bool isShootingLaser;
 
 	// Use this for initialization
 	void Start () {
-
+        isShootingLaser = false;
         animation = GetComponentInChildren<Animator>().gameObject.GetComponent<SpriteRenderer>();
         opacitéAnimation = 0;
         animation.color = new Color(1, 1, 1, opacitéAnimation);
@@ -75,11 +76,14 @@ public class Ship : MonoBehaviour
 			{
             if (!GameManager.instance.isInFight)
             {
-                    // rotation de l'origine du laser selon la position du joueur adverse
-                    Vector2 direction = GameManager.instance.getOtherShip(idJoueur).transform.position - transform.position;
-                    float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                    Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-                    laserOrigin.transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 10);
+                    if(isShootingLaser)
+                    {
+                        // rotation de l'origine du laser selon la position du joueur adverse
+                        Vector2 direction = GameManager.instance.getOtherShip(idJoueur).transform.position - transform.position;
+                        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                        laserOrigin.GetComponentInChildren<SpriteRenderer>().transform.rotation = Quaternion.Slerp(laserOrigin.GetComponentInChildren<SpriteRenderer>().transform.rotation, rotation, 10);
+                    }
 
                     totalDistance = GameManager.instance.xMax - GameManager.instance.xMin;
 					totalDistance = totalDistance / 100;
@@ -226,8 +230,13 @@ public class Ship : MonoBehaviour
 
     public void fireLaser()
     {
-        Ship target=GameManager.instance.getOtherShip(idJoueur);
-        GameObject laser = Instantiate(GameManager.instance.laser, new Vector3(laserOrigin.transform.position.x, laserOrigin.transform.position.y, laserOrigin.transform.position.z),Quaternion.identity);
-        laser.transform.parent = laserOrigin.transform;
+        if(!isShootingLaser)
+        {
+            Ship target=GameManager.instance.getOtherShip(idJoueur);
+            GameObject laser = Instantiate(GameManager.instance.laser, new Vector3(laserOrigin.transform.position.x, laserOrigin.transform.position.y, laserOrigin.transform.position.z),Quaternion.identity);
+            laser.transform.parent = laserOrigin.transform;
+            isShootingLaser = true;
+        }
+        
     }
 }

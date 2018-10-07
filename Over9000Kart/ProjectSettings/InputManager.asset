@@ -419,7 +419,7 @@ InputManager:
     snap: 0
     invert: 0
     type: 0
-    axis: 6
+    axis: 0
     joyNum: 2
   - serializedVersion: 3
     m_Name: Player1_Laser

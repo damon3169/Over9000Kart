@@ -210,7 +210,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1580562611345356, guid: b8fade9af10b6164f8e9932a5530772d, type: 2}
       propertyPath: m_TagString
-      value: LaserOrigin
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 114690439236281274, guid: b8fade9af10b6164f8e9932a5530772d,
         type: 2}
@@ -1188,6 +1188,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 1694075094730814, guid: 147fbb61591b59742b345415492d95c1, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 147fbb61591b59742b345415492d95c1, type: 2}
   m_IsPrefabAsset: 0
@@ -1283,7 +1287,7 @@ Prefab:
         type: 3}
     - target: {fileID: 1580562611345356, guid: b8fade9af10b6164f8e9932a5530772d, type: 2}
       propertyPath: m_TagString
-      value: LaserOrigin
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 114690439236281274, guid: b8fade9af10b6164f8e9932a5530772d,
         type: 2}
