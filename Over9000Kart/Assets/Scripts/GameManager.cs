@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
+
 
 
 public class GameManager : MonoBehaviour
@@ -87,7 +89,8 @@ public class GameManager : MonoBehaviour
 	{
 		finished = false;
 		isStarting = true;
-        //hasPlayedIntro = false;
+		//hasPlayedIntro = false;
+		Compteur.GetComponent<TextMeshProUGUI>().text = "";
 
 
 		float height = 2f * cam.orthographicSize;
@@ -221,7 +224,15 @@ public class GameManager : MonoBehaviour
 			}
 		}
 
-
+		if (finished)
+		{
+			Compteur.GetComponent<TextMeshProUGUI>().text = "Restart: R / Menu: ESCAPE";
+			if (Input.GetKeyDown("escape"))
+			{
+				SceneManager.LoadScene("Menu");
+				GameObject.Destroy(gameObject);
+			}
+		}
 
 		if (Time.time > timerObstaclesBegin + timerObstacles && !finished && !isStarting)
 		{

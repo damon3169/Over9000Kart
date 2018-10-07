@@ -179,6 +179,6 @@ public class Ship : MonoBehaviour
 
 	public void drawbackFight()
 	{
-		transform.position = new Vector3 (transform.position.x-1.5, transform.position.y, transform.position.z); 
+		transform.position = new Vector3 (transform.position.x-1.5f, transform.position.y, transform.position.z); 
 	}
 }
