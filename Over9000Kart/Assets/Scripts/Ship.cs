@@ -17,6 +17,7 @@ public class Ship : MonoBehaviour
     public float cooldownFightDuration = 6f;
     public bool isFigtingInCooldown = false;
     public bool isThereAndCooldown = false;
+	private float totalDistance;
 
 
     bool dPadPressed;
@@ -38,18 +39,26 @@ public class Ship : MonoBehaviour
                 controleurJoueur = "Player2";
                 break;
         }
+
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-        if (!GameManager.instance.finished)
+
+
+		if (!GameManager.instance.finished)
         {
 			if (!GameManager.instance.isStarting)
 			{
             if (!GameManager.instance.isInFight)
             {
-                score = transform.position.x * 100 + 8000 - GameManager.instance.getCameraWidth(); // calcul du score selon la position en x du vaisseau
+					totalDistance = GameManager.instance.xMax - GameManager.instance.xMin;
+					totalDistance = totalDistance / 100;
+					float distanceFromStart =	transform.position.x - GameManager.instance.xMin ;
+					distanceFromStart = distanceFromStart / totalDistance;
+					score = 8000 + distanceFromStart * 10;
+					//score = transform.position.x * 100 + 8000 - GameManager.instance.getCameraWidth(); // calcul du score selon la position en x du vaisseau
 
                 // freine le vaisseau en continu tant qu'on est au dessus de la vitesse minimum
                 if (speed > GameManager.instance.speedMin) speed -= GameManager.instance.frein;

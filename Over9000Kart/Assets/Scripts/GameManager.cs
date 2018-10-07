@@ -20,9 +20,9 @@ public class GameManager : MonoBehaviour {
     List<Ship> listShip; // liste des vaisseaux dans une partie
 
     public float xMin; // position x minimale d'un vaisseau sur l'écran
-
-    // ui
-    public GameObject GameObjectUIManager;
+	public float xMax;
+	// ui
+	public GameObject GameObjectUIManager;
     UiManager uiManager;
 
     // couloirs
@@ -118,7 +118,7 @@ public class GameManager : MonoBehaviour {
 
     void Start () {
         xMin = -getCameraWidth()/2+ getCameraWidth()/10;
-        Debug.Log(xMin);
+		xMax = getCameraWidth() / 2 + cam.transform.position.x;
         uiManager = GameObjectUIManager.GetComponent<UiManager>(); // on récupère l'uiManager
        
 		timerObstaclesBegin = 0;
