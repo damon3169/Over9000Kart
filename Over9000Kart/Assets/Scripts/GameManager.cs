@@ -180,10 +180,10 @@ public class GameManager : MonoBehaviour
             //hasPlayedIntro = false;
         }
 
-        if (getHighestSpeed() < 8200) { sourceMusique.pitch = 1f; starSpeed = 0.5f; starSize = 0.2f; }
-        if (getHighestSpeed() > 8300) { sourceMusique.pitch = 1.2f; starSpeed = 1.0f; starSize = 0.4f; }
-        if (getHighestSpeed() > 8600) { sourceMusique.pitch = 1.4f; starSpeed = 2.0f; starSize = 0.8f; }
-        if (getHighestSpeed() > 8800) { sourceMusique.pitch = 1.6f; starSpeed = 4.0f; starSize = 1.6f; }
+        if (getHighestSpeed() < 8200) { sourceMusique.pitch = 1f; starSpeed = 1f; starSize = 0.2f; }
+        if (getHighestSpeed() > 8300) { sourceMusique.pitch = 1.2f; starSpeed = 8f; starSize = 1f; }
+        if (getHighestSpeed() > 8600) { sourceMusique.pitch = 1.4f; starSpeed = 32f; starSize = 3f; }
+        if (getHighestSpeed() > 8800) { sourceMusique.pitch = 1.6f; starSpeed = 128f; starSize = 5f; }
 
         timeSinceLastStarGenerated += Time.deltaTime;
 		if (timeSinceLastStarGenerated >= starGenerationCooldown)
