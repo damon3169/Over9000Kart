@@ -17,13 +17,9 @@ public class Ship : MonoBehaviour
     public float cooldownFightDuration = 6f;
     public bool isFigtingInCooldown = false;
     public bool isThereAndCooldown = false;
-<<<<<<< HEAD
+
     float range;
-=======
 	private float totalDistance;
-
->>>>>>> 6f69ebf8e2e50dbbd0dc5515f63b7ce61b120ee3
-
     bool dPadPressed;
 
 
@@ -50,18 +46,13 @@ public class Ship : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-<<<<<<< HEAD
+
         // animation vaisseau
         range = (speed / 500) + 0.01f;
         Vector3 anim = new Vector3(spriteRenderer.transform.position.x + Random.Range(-range, range), spriteRenderer.transform.position.y + Random.Range(-range, range), spriteRenderer.transform.position.z);
         spriteRenderer.transform.position = anim;
 
-        if (!GameManager.instance.finished)
-=======
-
-
 		if (!GameManager.instance.finished)
->>>>>>> 6f69ebf8e2e50dbbd0dc5515f63b7ce61b120ee3
         {
 			if (!GameManager.instance.isStarting)
 			{
