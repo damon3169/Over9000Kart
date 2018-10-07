@@ -177,7 +177,7 @@ public class GameManager : MonoBehaviour
             //hasPlayedIntro = false;
         }
 
-        float pourcentageVictoire = (getHighestSpeed() - 8000) / 1000;
+        float pourcentageVictoire = (getHighestSpeed() - 8000.0f) / 1000.0f;
         sourceMusique.pitch = 1 + pourcentageVictoire * 0.25f; // de 1 à 1.25
         starSpeed = 1 + pourcentageVictoire * 63.0f; // de 1 à 64
         starSize = 0.2f + pourcentageVictoire * 4.8f; // de 0.2 à 5
