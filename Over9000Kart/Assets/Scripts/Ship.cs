@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class Ship : MonoBehaviour
 {
@@ -17,6 +19,7 @@ public class Ship : MonoBehaviour
     public float cooldownFightDuration = 6f;
     public bool isFigtingInCooldown = false;
     public bool isThereAndCooldown = false;
+	public RectTransform chargeBar;
 
 	float range;
 	private float totalDistance;
@@ -112,7 +115,11 @@ public class Ship : MonoBehaviour
                         transform.position = v;
                     }
                 }
-            }
+					float distanceSpeed = GameManager.instance.speedMax - GameManager.instance.speedMin;
+					float onePercentSpeed = distanceSpeed / 100;
+					float actualPercentageSpeed = speed / onePercentSpeed;
+					chargeBar.sizeDelta = new Vector2(actualPercentageSpeed,100);
+			}
 
             if (isFigtingInCooldown)
             {
