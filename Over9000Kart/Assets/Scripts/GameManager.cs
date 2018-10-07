@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour
         Star[] stars = FindObjectsOfType<Star>();
         for (int i = 0; i < stars.Length; i++)
         {
-            Destroy(stars[i]);
+            Destroy(stars[i].gameObject);
         }
 
         int nbStars = Random.Range(500, 2000); // nombre aléatoire d'étoiles à l'écran
@@ -257,7 +257,6 @@ public class GameManager : MonoBehaviour
 					}
 				}
 			}
->>>>>>> e819d14fbe03f99ba37af64178ca459c4bec5580
 		}
 
         if (!finished)
