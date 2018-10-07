@@ -31,9 +31,11 @@ public class Ship : MonoBehaviour
 
     AudioSource sourceShip;
 
+    public GameObject laserOrigin;
 
 	// Use this for initialization
 	void Start () {
+
         animation = GetComponentInChildren<Animator>().gameObject.GetComponent<SpriteRenderer>();
         opacitéAnimation = 0;
         animation.color = new Color(1, 1, 1, opacitéAnimation);
@@ -73,7 +75,13 @@ public class Ship : MonoBehaviour
 			{
             if (!GameManager.instance.isInFight)
             {
-					totalDistance = GameManager.instance.xMax - GameManager.instance.xMin;
+                    // rotation de l'origine du laser selon la position du joueur adverse
+                    Vector2 direction = GameManager.instance.getOtherShip(idJoueur).transform.position - transform.position;
+                    float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                    Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                    laserOrigin.transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 10);
+
+                    totalDistance = GameManager.instance.xMax - GameManager.instance.xMin;
 					totalDistance = totalDistance / 100;
 					float distanceFromStart =	transform.position.x - GameManager.instance.xMin ;
 					distanceFromStart = distanceFromStart / totalDistance;
@@ -118,7 +126,7 @@ public class Ship : MonoBehaviour
                 }
                 else if (Input.GetAxis(controleurJoueur + "_ChangeCorridor_J") == 0 && dPadPressed) dPadPressed = false;
 
-					// si le joueur mash les boutons pour accelerer et que sa vitesse n'est pas supérieure à la vitesse maximale ni inférieure à la vitesse minimale
+				// si le joueur mash les boutons pour accelerer et que sa vitesse n'est pas supérieure à la vitesse maximale ni inférieure à la vitesse minimale
                 if ((Input.GetButtonDown(controleurJoueur + "_SpeedUp_K") || Input.GetButtonDown(controleurJoueur + "_SpeedUp_J")) && speed < GameManager.instance.speedMax)
                 {
                     speed += GameManager.instance.acceleration; // on augmente la vitesse selon le niveau d'acceleration
@@ -128,11 +136,38 @@ public class Ship : MonoBehaviour
                         transform.position = v;
                     }
                 }
-					float distanceSpeed = GameManager.instance.speedMax - GameManager.instance.speedMin;
-					float onePercentSpeed = distanceSpeed / 100;
-					float actualPercentageSpeed = speed / onePercentSpeed;
-					chargeBar.sizeDelta = new Vector2(actualPercentageSpeed,100);
-			}
+
+				float distanceSpeed = GameManager.instance.speedMax - GameManager.instance.speedMin;
+				float onePercentSpeed = distanceSpeed / 100;
+				float actualPercentageSpeed = speed / onePercentSpeed;
+				chargeBar.sizeDelta = new Vector2(actualPercentageSpeed,100);
+
+                if ((Input.GetButtonDown(controleurJoueur + "_SpeedUp_K") || Input.GetButtonDown(controleurJoueur + "_SpeedUp_J")) && speed < GameManager.instance.speedMax)
+                {
+                    speed += GameManager.instance.acceleration; // on augmente la vitesse selon le niveau d'acceleration
+                    if (transform.position.x <= GameManager.instance.xMin)
+                    {
+                        Vector3 v = new Vector3(GameManager.instance.xMin + 0.01f, transform.position.y, transform.position.z);
+                        transform.position = v;
+                    }
+                }
+
+                if ((Input.GetButtonDown(controleurJoueur + "_SpeedUp_K") || Input.GetButtonDown(controleurJoueur + "_SpeedUp_J")) && speed < GameManager.instance.speedMax)
+                {
+                    speed += GameManager.instance.acceleration; // on augmente la vitesse selon le niveau d'acceleration
+                    if (transform.position.x <= GameManager.instance.xMin)
+                    {
+                        Vector3 v = new Vector3(GameManager.instance.xMin + 0.01f, transform.position.y, transform.position.z);
+                        transform.position = v;
+                    }
+                }
+
+                if ((Input.GetButtonDown(controleurJoueur + "_Laser")))
+                {
+                        fireLaser();
+                }
+
+            }
 
             if (isFigtingInCooldown)
             {
@@ -186,6 +221,13 @@ public class Ship : MonoBehaviour
 
 	public void drawbackFight()
 	{
-		transform.position = new Vector3 (transform.position.x - 1.5f, transform.position.y, transform.position.z); 
+		transform.position = new Vector3 (transform.position.x-1.5f, transform.position.y, transform.position.z); 
 	}
+
+    public void fireLaser()
+    {
+        Ship target=GameManager.instance.getOtherShip(idJoueur);
+        GameObject laser = Instantiate(GameManager.instance.laser, new Vector3(laserOrigin.transform.position.x, laserOrigin.transform.position.y, laserOrigin.transform.position.z),Quaternion.identity);
+        laser.transform.parent = laserOrigin.transform;
+    }
 }

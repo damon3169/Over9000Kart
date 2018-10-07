@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
+
 
 
 public class GameManager : MonoBehaviour
@@ -81,11 +83,15 @@ public class GameManager : MonoBehaviour
     public AudioClip collision;
     public AudioClip comet;
 
+    //laser
+    public GameObject laser;
+
 	public void debut_de_partie()
 	{
 		finished = false;
 		isStarting = true;
-        //hasPlayedIntro = false;
+		//hasPlayedIntro = false;
+		Compteur.GetComponent<TextMeshProUGUI>().text = "";
 
 
 		float height = 2f * cam.orthographicSize;
@@ -184,7 +190,7 @@ public class GameManager : MonoBehaviour
         }
 
         float pourcentageVictoire = (getHighestSpeed() - 8000.0f) / 1000.0f;
-        sourceMusique.pitch = 1 + pourcentageVictoire * 0.25f; // de 1 à 1.25
+        //sourceMusique.pitch = 1 + pourcentageVictoire * 0.08f; // de 1 à 1.25
         starSpeed = 1 + pourcentageVictoire * 63.0f; // de 1 à 64
         starSize = 0.2f + pourcentageVictoire * 6.8f; // de 0.2 à 7
 
@@ -214,7 +220,44 @@ public class GameManager : MonoBehaviour
 				Compteur.GetComponent<TextMeshProUGUI>().text = "";
 				isStarting = false;
                 Compteur.GetComponent<TextMeshProUGUI>().fontSize /= 4;
-            }
+			}
+		}
+
+		if (finished)
+		{
+			Compteur.GetComponent<TextMeshProUGUI>().text = "Restart: R / Menu: ESCAPE";
+			if (Input.GetKeyDown("escape"))
+			{
+				SceneManager.LoadScene("Menu");
+				GameObject.Destroy(gameObject);
+			}
+		}
+
+		if (Time.time > timerObstaclesBegin + timerObstacles && !finished && !isStarting)
+		{
+			timerObstacles = Random.Range(1, timerObstaclesRange);
+			numberObstacle = Random.Range(1, couloirs.numberOfCorridor);
+			timerObstaclesBegin = Time.time;
+			usedCouloirs.Clear();
+			for (int i = 0; i < numberObstacle; i++)
+			{
+				isObstacleSpawn = false;
+				while (!isObstacleSpawn)
+				{
+					SpawnIn = Random.Range(0, couloirs.numberOfCorridor);
+					float distanceBetweenObstacles = Random.Range(0.5f, randomDistance);
+					if (usedCouloirs == null || !usedCouloirs.Contains(SpawnIn))
+					{
+						usedCouloirs.Add(SpawnIn);
+						GameObject obst = Instantiate(obstacle);
+						float height = 2f * cam.orthographicSize;
+						float width = height * cam.aspect;
+						obst.transform.position = new Vector3(cam.transform.position.x + width / 2 + distanceBetweenObstacles, couloirs.couloirsList[SpawnIn].y, couloirs.couloirsList[SpawnIn].z);
+						isObstacleSpawn = true;
+					}
+				}
+			}
+>>>>>>> e819d14fbe03f99ba37af64178ca459c4bec5580
 		}
 
         if (!finished)
@@ -429,5 +472,14 @@ public class GameManager : MonoBehaviour
             if (ship.score> f) f = ship.score;
         }
         return f;
+    }
+
+    public Ship getOtherShip(int idJoueur)
+    {
+        foreach(Ship ship in listShip)
+        {
+            if (ship.idJoueur != idJoueur) return ship;
+        }
+        return null;
     }
 }
