@@ -80,8 +80,6 @@ public class GameManager : MonoBehaviour
     public AudioClip speeddown;
     public AudioClip collision;
     public AudioClip comet;
-    public int nbPaliers;
-    float[] paliersMusique;
 
 	public void debut_de_partie()
 	{
@@ -146,11 +144,6 @@ public class GameManager : MonoBehaviour
 
 	void Start()
 	{
-        paliersMusique = new float[nbPaliers];
-        for (int i = 0; i < nbPaliers; i++)
-        {
-            paliersMusique[i] = 8000 + ((1000 / nbPaliers) * i + 1);
-        }
         hasPlayedIntro = false;
 		xMin = -getCameraWidth() / 2 + getCameraWidth() / 10;
 		xMax = getCameraWidth() / 2 - getCameraWidth() / 10;
@@ -183,15 +176,11 @@ public class GameManager : MonoBehaviour
             sourceMusique.PlayOneShot(refrain, volumeMusique);
             //hasPlayedIntro = false;
         }
-        
-        if (getHighestSpeed() < 8200) { sourceMusique.pitch = 1f; starSpeed = 1f; starSize = 0.2f; }
-        if (getHighestSpeed() > 8300) { sourceMusique.pitch = 1.2f; starSpeed = 8f; starSize = 1f; }
-        if (getHighestSpeed() > 8600) { sourceMusique.pitch = 1.4f; starSpeed = 32f; starSize = 3f; }
-        if (getHighestSpeed() > 8800) { sourceMusique.pitch = 1.6f; starSpeed = 128f; starSize = 5f; }
-        for(int i=0; i<nbPaliers;i++)
-        {
-            if (getHighestSpeed() > paliersMusique[i]) sourceMusique.pitch = 1+(0.1f*(i));
-        }
+
+        float pourcentageVictoire = (getHighestSpeed() - 8000) / 1000;
+        sourceMusique.pitch = 1 + pourcentageVictoire * 0.25f; // de 1 à 1.25
+        starSpeed = 1 + pourcentageVictoire * 63.0f; // de 1 à 64
+        starSize = 0.2f + pourcentageVictoire * 4.8f; // de 0.2 à 5
 
         timeSinceLastStarGenerated += Time.deltaTime;
 		if (timeSinceLastStarGenerated >= starGenerationCooldown)
